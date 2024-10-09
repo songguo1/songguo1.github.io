@@ -16,20 +16,24 @@
   .icon-csdn:before {
     content: "\e600";
     color: #fc5531;
+    font-size: 22px;
   }
   
   .icon-github:before {
     content: "\e689";
     color: #24292e;
+    font-size: 22px;
   }
   
   .icon-weixin:before {
     content: "\e607";
     color: #1AAD19;
+    font-size: 22px;
   }
   
   .icon-zhihu-circle-fill:before {
     content: "\ea8b";
     color: #0084ff;
+    font-size: 22px;
   }
   
