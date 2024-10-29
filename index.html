@@ -1,1324 +1,204 @@
-<!DOCTYPE html>
-<html lang="zh-Hans" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0,viewport-fit=cover"
-    />
-    <title>松果猿的博客</title>
-    <meta name="author" content="Beson" />
-    <meta name="copyright" content="Beson" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="description" content="Hello World" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="松果猿的博客" />
-    <meta property="og:url" content="https://blog.beson.top/index.html" />
-    <meta property="og:site_name" content="松果猿的博客" />
-    <meta property="og:description" content="Hello World" />
-    <meta property="og:locale" />
-    <meta
-      property="og:image"
-      content="https://blog.beson.top/image/avatar.png"
-    />
-    <meta property="article:author" content="Beson" />
-    <meta name="twitter:card" content="summary" />
-    <meta
-      name="twitter:image"
-      content="https://blog.beson.top/image/avatar.png"
-    />
-    <link rel="shortcut icon" href="/%5Bobject%20Object%5D" />
-    
-    <link rel="canonical" href="https://blog.beson.top/index.html" />
-    <link rel="preconnect" href="//cdn.jsdelivr.net" />
-    <link rel="preconnect" href="//busuanzi.ibruce.info" />
-    <link rel="stylesheet" href="/css/index.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
-    />
-    <script>
-      (() => {
-        const saveToLocal = {
-          set: (key, value, ttl) => {
-            if (!ttl) return;
-            const expiry = Date.now() + ttl * 86400000;
-            localStorage.setItem(key, JSON.stringify({ value, expiry }));
-          },
-          get: (key) => {
-            const itemStr = localStorage.getItem(key);
-            if (!itemStr) return undefined;
-            const { value, expiry } = JSON.parse(itemStr);
-            if (Date.now() > expiry) {
-              localStorage.removeItem(key);
-              return undefined;
-            }
-            return value;
-          },
-        };
-
-        window.btf = {
-          saveToLocal,
-          getScript: (url, attr = {}) =>
-            new Promise((resolve, reject) => {
-              const script = document.createElement("script");
-              script.src = url;
-              script.async = true;
-              Object.entries(attr).forEach(([key, val]) =>
-                script.setAttribute(key, val)
-              );
-              script.onload = script.onreadystatechange = () => {
-                if (
-                  !script.readyState ||
-                  /loaded|complete/.test(script.readyState)
-                )
-                  resolve();
-              };
-              script.onerror = reject;
-              document.head.appendChild(script);
-            }),
-          getCSS: (url, id) =>
-            new Promise((resolve, reject) => {
-              const link = document.createElement("link");
-              link.rel = "stylesheet";
-              link.href = url;
-              if (id) link.id = id;
-              link.onload = link.onreadystatechange = () => {
-                if (!link.readyState || /loaded|complete/.test(link.readyState))
-                  resolve();
-              };
-              link.onerror = reject;
-              document.head.appendChild(link);
-            }),
-          addGlobalFn: (key, fn, name = false, parent = window) => {
-            if (!true && key.startsWith("pjax")) return;
-            const globalFn = parent.globalFn || {};
-            globalFn[key] = globalFn[key] || {};
-            if (name && globalFn[key][name]) return;
-            globalFn[key][name || Object.keys(globalFn[key]).length] = fn;
-            parent.globalFn = globalFn;
-          },
-        };
-
-        const asideStatus = saveToLocal.get("aside-status");
-        if (asideStatus !== undefined) {
-          document.documentElement.classList.toggle(
-            "hide-aside",
-            asideStatus === "hide"
-          );
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>松果猿的博客</title><meta name="author" content="Beson"><meta name="copyright" content="Beson"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Hello World">
+<meta property="og:type" content="website">
+<meta property="og:title" content="松果猿的博客">
+<meta property="og:url" content="https://blog.beson.top/index.html">
+<meta property="og:site_name" content="松果猿的博客">
+<meta property="og:description" content="Hello World">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.beson.top/image/avatar.png">
+<meta property="article:author" content="Beson">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.beson.top/image/avatar.png"><link rel="shortcut icon" href="/%5Bobject%20Object%5D"><link rel="canonical" href="https://blog.beson.top/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
         }
+        return value
+      }
+    }
 
-        const detectApple = () => {
-          if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
-            document.documentElement.classList.add("apple");
-          }
-        };
-        detectApple();
-      })();
-    </script>
-    <script>
-      const GLOBAL_CONFIG = {
-        root: "/",
-        algolia: undefined,
-        localSearch: undefined,
-        translate: undefined,
-        noticeOutdate: undefined,
-        highlight: {
-          plugin: "highlight.js",
-          highlightCopy: true,
-          highlightLang: true,
-          highlightHeightLimit: false,
-          highlightFullpage: false,
-          highlightMacStyle: false,
-        },
-        copy: {
-          success: "Copy Successful",
-          error: "Copy Failed",
-          noSupport: "Browser Not Supported",
-        },
-        relativeDate: {
-          homepage: true,
-          post: true,
-        },
-        runtime: "",
-        dateSuffix: {
-          just: "Just now",
-          min: "minutes ago",
-          hour: "hours ago",
-          day: "days ago",
-          month: "months ago",
-        },
-        copyright: {
-          limitCount: 50,
-          languages: {
-            author: "Author: Beson",
-            link: "Link: ",
-            source: "Source: 松果猿的博客",
-            info: "Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source.",
-          },
-        },
-        lightbox: "null",
-        Snackbar: undefined,
-        infinitegrid: {
-          js: "https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js",
-          buttonText: "Load More",
-        },
-        isPhotoFigcaption: false,
-        islazyload: false,
-        isAnchor: false,
-        percent: {
-          toc: true,
-          rightside: false,
-        },
-        autoDarkmode: false,
-      };
-    </script>
-    <script id="config-diff">
-      var GLOBAL_CONFIG_SITE = {
-        title: "松果猿的博客",
-        isPost: false,
-        isHome: true,
-        isHighlightShrink: false,
-        isToc: false,
-        postUpdate: "2024-10-29 21:27:51",
-      };
-    </script>
-    <link rel="stylesheet" href="/css/font.css" />
-    <meta name="generator" content="Hexo 7.3.0" />
-  </head>
-  <body>
-    <div
-      id="web_bg"
-      style="background-image: url(url(https://source.fomal.cc/img/dm1.webp))"
-    ></div>
-    <div id="sidebar">
-      <div id="menu-mask"></div>
-      <div id="sidebar-menus">
-        <div class="avatar-img is-center">
-          <img
-            src="/image/avatar.png"
-            onerror="onerror=null;src='/img/friend_404.gif'"
-            alt="avatar"
-          />
-        </div>
-        <div class="site-data is-center">
-          <a href="/archives/"
-            ><div class="headline">Articles</div>
-            <div class="length-num">15</div></a
-          ><a href="/tags/"
-            ><div class="headline">Tags</div>
-            <div class="length-num">0</div></a
-          ><a href="/categories/"
-            ><div class="headline">Categories</div>
-            <div class="length-num">10</div></a
-          >
-        </div>
-        <div class="menus_items">
-          <div class="menus_item">
-            <a class="site-page" href="/"
-              ><i class="fa-fw fas fa-home"></i><span> 首页</span></a
-            >
-          </div>
-          <div class="menus_item">
-            <span class="site-page group"
-              ><i class="fa-fw fas fa-file"></i><span> 文章</span
-              ><i class="fas fa-chevron-down"></i
-            ></span>
-            <ul class="menus_item_child">
-              <li>
-                <a class="site-page child" href="/archives/"
-                  ><i class="fa-fw fas fa-archive"></i><span> 归档</span></a
-                >
-              </li>
-              <li>
-                <a class="site-page child" href="/tags/"
-                  ><i class="fa-fw fas fa-tags"></i><span> 标签</span></a
-                >
-              </li>
-              <li>
-                <a class="site-page child" href="/categories/"
-                  ><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="menus_item">
-            <span class="site-page group"
-              ><i class="fa-fw fas fa-list"></i><span> 列表</span
-              ><i class="fas fa-chevron-down"></i
-            ></span>
-            <ul class="menus_item_child">
-              <li>
-                <a class="site-page child" href="/music/"
-                  ><i class="fa-fw fas fa-music"></i><span> 音乐</span></a
-                >
-              </li>
-              <li>
-                <a class="site-page child" href="/movies/"
-                  ><i class="fa-fw fas fa-video"></i><span> 电影</span></a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="menus_item">
-            <span class="site-page group"
-              ><i class="fa-fw fas fa-user"></i><span> 与我</span
-              ><i class="fas fa-chevron-down"></i
-            ></span>
-            <ul class="menus_item_child">
-              <li>
-                <a class="site-page child" href="/link/"
-                  ><i class="fa-fw fas fa-link"></i><span> 友链</span></a
-                >
-              </li>
-              <li>
-                <a class="site-page child" href="/about/"
-                  ><i class="fa-fw fas fa-heart"></i><span> 关于</span></a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="page" id="body-wrap">
-      <header
-        class="full_page"
-        id="page-header"
-        style="background-image: url(image/666.gif)"
-      >
-        <nav id="nav">
-          <span id="blog-info"
-            ><a class="nav-site-title" href="/"
-              ><span class="site-name">松果猿的博客</span></a
-            ></span
-          >
-          <div id="menus">
-            <div class="menus_items">
-              <div class="menus_item">
-                <a class="site-page" href="/"
-                  ><i class="fa-fw fas fa-home"></i><span> 首页</span></a
-                >
-              </div>
-              <div class="menus_item">
-                <span class="site-page group"
-                  ><i class="fa-fw fas fa-file"></i><span> 文章</span
-                  ><i class="fas fa-chevron-down"></i
-                ></span>
-                <ul class="menus_item_child">
-                  <li>
-                    <a class="site-page child" href="/archives/"
-                      ><i class="fa-fw fas fa-archive"></i><span> 归档</span></a
-                    >
-                  </li>
-                  <li>
-                    <a class="site-page child" href="/tags/"
-                      ><i class="fa-fw fas fa-tags"></i><span> 标签</span></a
-                    >
-                  </li>
-                  <li>
-                    <a class="site-page child" href="/categories/"
-                      ><i class="fa-fw fas fa-folder-open"></i
-                      ><span> 分类</span></a
-                    >
-                  </li>
-                </ul>
-              </div>
-              <div class="menus_item">
-                <span class="site-page group"
-                  ><i class="fa-fw fas fa-list"></i><span> 列表</span
-                  ><i class="fas fa-chevron-down"></i
-                ></span>
-                <ul class="menus_item_child">
-                  <li>
-                    <a class="site-page child" href="/music/"
-                      ><i class="fa-fw fas fa-music"></i><span> 音乐</span></a
-                    >
-                  </li>
-                  <li>
-                    <a class="site-page child" href="/movies/"
-                      ><i class="fa-fw fas fa-video"></i><span> 电影</span></a
-                    >
-                  </li>
-                </ul>
-              </div>
-              <div class="menus_item">
-                <span class="site-page group"
-                  ><i class="fa-fw fas fa-user"></i><span> 与我</span
-                  ><i class="fas fa-chevron-down"></i
-                ></span>
-                <ul class="menus_item_child">
-                  <li>
-                    <a class="site-page child" href="/link/"
-                      ><i class="fa-fw fas fa-link"></i><span> 友链</span></a
-                    >
-                  </li>
-                  <li>
-                    <a class="site-page child" href="/about/"
-                      ><i class="fa-fw fas fa-heart"></i><span> 关于</span></a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div id="toggle-menu">
-              <span class="site-page"><i class="fas fa-bars fa-fw"></i></span>
-            </div>
-          </div>
-        </nav>
-        <div id="site-info">
-          <h1 id="site-title">松果猿的博客</h1>
-          <div id="site-subtitle"><span id="subtitle"></span></div>
-          <div id="site_social_icons">
-            <a
-              class="social-icon"
-              href="https://blog.beson.top/image/weixin.png"
-              target="_blank"
-              title="微信"
-              ><i class="iconfont icon-weixin"></i></a
-            ><a
-              class="social-icon"
-              href="https://github.com/songguo1"
-              target="_blank"
-              title="GitHub"
-              ><i class="iconfont icon-github"></i></a
-            ><a
-              class="social-icon"
-              href="https://blog.csdn.net/2301_78796401"
-              target="_blank"
-              title="CSDN"
-              ><i class="iconfont icon-csdn"></i></a
-            ><a
-              class="social-icon"
-              href="https://www.zhihu.com/people/m8bxac"
-              target="_blank"
-              title="知乎"
-              ><i class="iconfont icon-zhihu-circle-fill"></i
-            ></a>
-          </div>
-        </div>
-        <div id="scroll-down">
-          <i class="fas fa-angle-down scroll-down-effects"></i>
-        </div>
-      </header>
-      <main class="layout" id="content-inner">
-        <div class="recent-posts nc" id="recent-posts">
-          <div class="recent-post-items">
-            <div class="recent-post-item">
-              <div class="post_cover left">
-                <a
-                  href="/2024/10/27/AI/ChatAPI/"
-                  title="国内主流大模型api调用的整理（个人转载笔记）"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/AI-1.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="国内主流大模型api调用的整理（个人转载笔记）"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/27/AI/ChatAPI/"
-                  title="国内主流大模型api调用的整理（个人转载笔记）"
-                  >国内主流大模型api调用的整理（个人转载笔记）</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-27T06:21:52.533Z"
-                      title="Created 2024-10-27 14:21:52"
-                      >2024-10-27</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-27T06:21:03.045Z"
-                      title="Updated 2024-10-27 14:21:03"
-                      >2024-10-27</time
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  一、月之暗面 &#x2F; Kimi chat API
-                  key申请地址：https://platform.moonshot.cn/console/api-keys
-                  API文档地址：https://platform.moonshot.cn/docs
-                  API定价信息：https://platform.moonshot.cn/docs/price/chat
-                  二、百度 &#x2F; 文心一言 （骂街系列~~） 流程很麻烦，也不好找！
-                  先要申请Key，先要创建应用。登录百度智能云千帆控制台创建应用，创建成功后，在应用列表页获取AppID、API
-                  Key、Secret Key 等信息。 API...
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover right">
-                <a
-                  href="/2024/10/27/Front-end/Next.js/env-next/"
-                  title="Next.js项目环境变量配置"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/front-end-1.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="Next.js项目环境变量配置"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/27/Front-end/Next.js/env-next/"
-                  title="Next.js项目环境变量配置"
-                  >Next.js项目环境变量配置</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-27T05:38:49.868Z"
-                      title="Created 2024-10-27 13:38:49"
-                      >2024-10-27</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-27T05:38:19.445Z"
-                      title="Updated 2024-10-27 13:38:19"
-                      >2024-10-27</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/"
-                      >前端</a
-                    ><i class="fas fa-angle-right article-meta-link"></i
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/Next-js/"
-                      >Next.js</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  [Next.js官方文档](Configuring: Environment Variables |
-                  Next.js) Next.js 具有对将环境变量从 .env* 文件加载到
-                  process.env 的内置支持。
-                  123DB_HOST=localhostDB_USER=myuserDB_PASS=mypassword 1.
-                  创建环境变量文件在项目根目录下创建以下文件来存储不同环境的环境变量：
-                  .env.local：本地开发环境变量，不应该提交到版本控制。
-                  .env.development：开发环境变量。 .env.test：测试环境变量。
-                  .env.production：生产环境变量。
-                  这些文件应该以键值对的形式存储环境变量，例如：
-                  .env.development
-                  123DB_HOST=localhostDB_USER=myuserDB_PASS=mypassword
-                  .env.production
-                  123DB_HOST=prod.example.comDB_USER=produserDB_PASS=prodpassword
-                  2. 使用环境变量在...
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover left">
-                <a
-                  href="/2024/10/24/Front-end/Next.js/orm-Prisma/"
-                  title="在Next.js项目中使用Prisma连接PostgreSQL数据库"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/front-end-1.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="在Next.js项目中使用Prisma连接PostgreSQL数据库"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/24/Front-end/Next.js/orm-Prisma/"
-                  title="在Next.js项目中使用Prisma连接PostgreSQL数据库"
-                  >在Next.js项目中使用Prisma连接PostgreSQL数据库</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-24T03:47:03.822Z"
-                      title="Created 2024-10-24 11:47:03"
-                      >2024-10-24</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-24T03:46:15.047Z"
-                      title="Updated 2024-10-24 11:46:15"
-                      >2024-10-24</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/"
-                      >前端</a
-                    ><i class="fas fa-angle-right article-meta-link"></i
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/Next-js/"
-                      >Next.js</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  Prisma教学视频:https://www.youtube.com/watch?v=QXxy8Uv1LnQhttps://www.youtube.com/watch?v=RebA5J-rlwgPrisma中文文档：https://prisma.org.cn/docs/orm
-                  安装 Prisma ORM 安装Prisma CLi： 1npm install prisma
-                  --save-dev 设置 Prisma ORM： 1npx prisma init 此命令执行两件事
-                  创建一个名为 prisma 的新目录，其中包含一个名为 schema.prisma
-                  的文件，该文件包含 Prisma
-                  架构，其中包含您的数据库连接变量和架构模型
-                  在项目的根目录中创建 .env
-                  文件，用于定义环境变量（例如您的数据库连接） 连接
-                  PostgreSQL数据库 prisma/schema.prisma： 1234datasource db
-                  &#123; provider = &quot;postgresql&quot; url =...
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover right">
-                <a
-                  href="/2024/10/20/AI/cursor_1/"
-                  title="人人都能傻瓜式编程！！？？——cursor初体验"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/cursor.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="人人都能傻瓜式编程！！？？——cursor初体验"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/20/AI/cursor_1/"
-                  title="人人都能傻瓜式编程！！？？——cursor初体验"
-                  >人人都能傻瓜式编程！！？？——cursor初体验</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-20T07:00:05.744Z"
-                      title="Created 2024-10-20 15:00:05"
-                      >2024-10-20</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-20T07:02:11.830Z"
-                      title="Updated 2024-10-20 15:02:11"
-                      >2024-10-20</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a class="article-meta__categories" href="/categories/AI/"
-                      >AI</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  最近Cursor这个AI编程工具刷屏了。说实话，AI编程工具近年层出不穷，我也见怪不怪了，主要是没有遇到一个能让我眼前一亮的产品，但是这一次的AI工具真的是惊艳到我了，几乎是没有任何编程基础的小白都能够制作一个小插件或者网站，Cloudflare副总裁的8岁女儿用Cursor在
-                  45
-                  分钟内搭起来一个聊天机器人，那这我得看看到底是什么神奇的AI工具。
-                  来到官网，点击Download for
-                  Free，会下载一个安装包，按照步骤进行安装就可以了
-                  新用户有两周的免费的Pro体验时间的，到期后如果还想使用，需要按照每月20$进行续费
-                  不过我从网上看到可以白嫖的方法：到期后注销你的账号，直接再用原账号注册一个又会重新又有两周的体验时间（白嫖党的福音）。
-                  下载好后进入，咦？这Cursor的IDE怎么和VS Code一个样？
-                  然后去官方文档看了一下：“Cursor 是 VS Code
-                  的一个分支。”原来如此，你当然也可以将VS Code 配置和扩展导入...
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover left">
-                <a href="/2024/10/19/Tech_Musings/stream/" title="stream流"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/musing.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="stream流"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/19/Tech_Musings/stream/"
-                  title="stream流"
-                  >stream流</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-19T12:28:34.810Z"
-                      title="Created 2024-10-19 20:28:34"
-                      >2024-10-19</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-19T12:28:00.211Z"
-                      title="Updated 2024-10-19 20:28:00"
-                      >2024-10-19</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"
-                      >技术杂谈</a
-                    ></span
-                  >
-                </div>
-                <div class="content">...</div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover right">
-                <a
-                  href="/2024/10/19/Front-end/Basic/ajax-axios-fetch/"
-                  title="fetch、axios和ajax三种网络请求方式详解"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/front-end-1.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="fetch、axios和ajax三种网络请求方式详解"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/19/Front-end/Basic/ajax-axios-fetch/"
-                  title="fetch、axios和ajax三种网络请求方式详解"
-                  >fetch、axios和ajax三种网络请求方式详解</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-19T10:00:46.829Z"
-                      title="Created 2024-10-19 18:00:46"
-                      >2024-10-19</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-19T09:57:10.756Z"
-                      title="Updated 2024-10-19 17:57:10"
-                      >2024-10-19</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/"
-                      >前端</a
-                    ><i class="fas fa-angle-right article-meta-link"></i
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
-                      >基础知识</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  fetch、axios 和 ajax
-                  是三种常用的在前端发送网络请求的方法。它们各有特点和适用场景：
-                  1. Fetch APIfetch 是一个现代的 JavaScript
-                  API，用于在浏览器中发起网络请求。它返回一个 Promise
-                  对象，使得异步请求更加简洁和易于管理。 基本用法：
-                  12345678910111213fetch(&#x27;https://api.example.com/data&#x27;)
-                  .then(response =&gt; &#123; if (!response.ok) &#123; throw new
-                  Error(&#x27;Network response was not ok&#x27;); &#125; return
-                  response.json(); &#125;) .then(data =&gt; &#123;
-                  console.log(data); &#125;) .catch(error =&gt; &#123;
-                  console.error(&#x27;There has been...
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover left">
-                <a
-                  href="/2024/10/16/Front-end/TypeScript/ts-type-interface/"
-                  title="TypeScript中interface接口 type关键字 enum枚举类型"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/front-end-1.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="TypeScript中interface接口 type关键字 enum枚举类型"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/16/Front-end/TypeScript/ts-type-interface/"
-                  title="TypeScript中interface接口 type关键字 enum枚举类型"
-                  >TypeScript中interface接口 type关键字 enum枚举类型</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-16T15:39:44.318Z"
-                      title="Created 2024-10-16 23:39:44"
-                      >2024-10-16</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-16T15:39:01.862Z"
-                      title="Updated 2024-10-16 23:39:01"
-                      >2024-10-16</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/"
-                      >前端</a
-                    ><i class="fas fa-angle-right article-meta-link"></i
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/TypeScript/"
-                      >TypeScript</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  type interface总是傻傻分不清~~~ Type Aliases (type)type
-                  关键字用于为类型定义一个别名。这可以是基本类型、联合类型、元组、数组、函数等。type
-                  定义的类型在编译后的 JavaScript
-                  代码中会被移除，不会留下任何运行时的代码。
-                  1234567891011121314151617//联合类型type StringOrNumber =
-                  string | number;type StringOrNumber = 1 | 2;//数组类型type
-                  Point = number[];//元组类型type Point = [number,
-                  number];//函数类型type Greeter = (name: string) =&gt;
-                  void;const myPoint: Point = [10, 20];const greet: Greeter =
-                  function(name) &#123; console.log(&quot;Hello, &quot; +
-                  name);&#125;; Interfaces...
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover right">
-                <a
-                  href="/2024/10/15/Tech_Musings/DocumentFlow/"
-                  title="CSS文档流特点"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/Musing.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="CSS文档流特点"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/15/Tech_Musings/DocumentFlow/"
-                  title="CSS文档流特点"
-                  >CSS文档流特点</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-15T15:59:41.521Z"
-                      title="Created 2024-10-15 23:59:41"
-                      >2024-10-15</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-15T15:59:07.813Z"
-                      title="Updated 2024-10-15 23:59:07"
-                      >2024-10-15</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"
-                      >技术杂谈</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  顺序流布局：元素按照 HTML
-                  中的顺序从上到下排列。块级元素（block-level
-                  elements）独占一行，内联元素（inline elements）则并排排列。
-                  块级元素：块级元素（如 &lt;div&gt;, &lt;p&gt;, &lt;section&gt;
-                  等）默认会填充父容器的宽度，并且前后带有换行符。
-                  内联元素：内联元素（如 &lt;span&gt;, &lt;a&gt;, &lt;img&gt;
-                  等）不会独占一行，它们会与其他内联元素并排显示，直到填满行宽。
-                  格式化上下文：文档流中的元素会生成块级格式化上下文（BFC）或内联格式化上下文（IFC），这决定了元素如何相对于彼此进行布局。
-                  包含块：每个元素都有一个包含块（containing
-                  block），这是用于计算元素尺寸和定位的参考区域。对于块级元素，通常是其父元素的内容区域；对于内联元素，可能是行框（line...
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover left">
-                <a
-                  href="/2024/10/15/Front-end/Basic/css-2/"
-                  title="常见的CSS页面布局"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/front-end-1.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="常见的CSS页面布局"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/15/Front-end/Basic/css-2/"
-                  title="常见的CSS页面布局"
-                  >常见的CSS页面布局</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-15T10:01:31.494Z"
-                      title="Created 2024-10-15 18:01:31"
-                      >2024-10-15</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-15T10:00:15.859Z"
-                      title="Updated 2024-10-15 18:00:15"
-                      >2024-10-15</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/"
-                      >前端</a
-                    ><i class="fas fa-angle-right article-meta-link"></i
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
-                      >基础知识</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  懒得整理了，直接贴链接~~~
-                  参考文章:https://www.ruanyifeng.com/blog/2020/08/five-css-layouts-in-one-line.htmlhttps://blog.csdn.net/itcast_cn/article/details/130812702示例：https://1linelayouts.glitch.me/
-                  使用 CSS 制作的流行布局和模式的集合。现在它有 100+
-                  种模式，并且还在继续增长:https://github.com/phuocng/csslayout
-                </div>
-              </div>
-            </div>
-            <div class="recent-post-item">
-              <div class="post_cover right">
-                <a href="/2024/10/15/Front-end/Basic/css-1/" title="css布局-1"
-                  ><img
-                    class="post-bg"
-                    src="/image/cover/front-end-1.png"
-                    onerror="this.onerror=null;this.src='/img/404.jpg'"
-                    alt="css布局-1"
-                /></a>
-              </div>
-              <div class="recent-post-info">
-                <a
-                  class="article-title"
-                  href="/2024/10/15/Front-end/Basic/css-1/"
-                  title="css布局-1"
-                  >css布局-1</a
-                >
-                <div class="article-meta-wrap">
-                  <span class="post-meta-date"
-                    ><i class="far fa-calendar-alt"></i
-                    ><span class="article-meta-label">Created</span
-                    ><time
-                      class="post-meta-date-created"
-                      datetime="2024-10-15T08:54:14.075Z"
-                      title="Created 2024-10-15 16:54:14"
-                      >2024-10-15</time
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-history"></i
-                    ><span class="article-meta-label">Updated</span
-                    ><time
-                      class="post-meta-date-updated"
-                      datetime="2024-10-15T09:01:23.928Z"
-                      title="Updated 2024-10-15 17:01:23"
-                      >2024-10-15</time
-                    ></span
-                  ><span class="article-meta"
-                    ><span class="article-meta-separator">|</span
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/"
-                      >前端</a
-                    ><i class="fas fa-angle-right article-meta-link"></i
-                    ><i class="fas fa-inbox"></i
-                    ><a
-                      class="article-meta__categories"
-                      href="/categories/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
-                      >基础知识</a
-                    ></span
-                  >
-                </div>
-                <div class="content">
-                  参考文章：https://blog.csdn.net/qq_38473254/article/details/124774497https://blog.csdn.net/weixin_48051526/article/details/140731821https://blog.csdn.net/qq_69183322/article/details/136102095https://zhuanlan.zhihu.com/p/29070363https://zhuanlan.zhihu.com/p/161822219
-                  position定位布局 属性值 作用 absolute
-                  生成绝对定位的元素，相对于 static
-                  定位以外的第一个父元素进行定位。元素的位置通过 “left”, “top”,
-                  “right” 以及 “bottom” 属性进行规定。 fixed
-                  生成固定定位的元素，相对于浏览器窗口进行定位。元素的位置通过
-                  “left”, “top”, “right” 以及 “bottom”...
-                </div>
-              </div>
-            </div>
-          </div>
-          <nav id="pagination">
-            <div class="pagination">
-              <span class="page-number current">1</span
-              ><a class="page-number" href="/page/2/#content-inner">2</a
-              ><a class="extend next" rel="next" href="/page/2/#content-inner"
-                ><i class="fas fa-chevron-right fa-fw"></i
-              ></a>
-            </div>
-          </nav>
-        </div>
-        <div class="aside-content" id="aside-content">
-          <div class="card-widget card-info is-center">
-            <div class="avatar-img">
-              <img
-                src="/image/avatar.png"
-                onerror="this.onerror=null;this.src='/img/friend_404.gif'"
-                alt="avatar"
-              />
-            </div>
-            <div class="author-info-name">Beson</div>
-            <div class="author-info-description">Hello World</div>
-            <div class="site-data">
-              <a href="/archives/"
-                ><div class="headline">Articles</div>
-                <div class="length-num">15</div></a
-              ><a href="/tags/"
-                ><div class="headline">Tags</div>
-                <div class="length-num">0</div></a
-              ><a href="/categories/"
-                ><div class="headline">Categories</div>
-                <div class="length-num">10</div></a
-              >
-            </div>
-            <a
-              id="card-info-btn"
-              target="_blank"
-              rel="noopener"
-              href="https://github.com/songguo1"
-              ><i class="fab fa-github"></i><span>🛴前往小家...</span></a
-            >
-            <div class="card-info-social-icons">
-              <a
-                class="social-icon"
-                href="https://blog.beson.top/image/weixin.png"
-                target="_blank"
-                title="微信"
-                ><i class="iconfont icon-weixin"></i></a
-              ><a
-                class="social-icon"
-                href="https://github.com/songguo1"
-                target="_blank"
-                title="GitHub"
-                ><i class="iconfont icon-github"></i></a
-              ><a
-                class="social-icon"
-                href="https://blog.csdn.net/2301_78796401"
-                target="_blank"
-                title="CSDN"
-                ><i class="iconfont icon-csdn"></i></a
-              ><a
-                class="social-icon"
-                href="https://www.zhihu.com/people/m8bxac"
-                target="_blank"
-                title="知乎"
-                ><i class="iconfont icon-zhihu-circle-fill"></i
-              ></a>
-            </div>
-          </div>
-          <div class="card-widget card-announcement">
-            <div class="item-headline">
-              <i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span>
-            </div>
-            <div class="announcement_content">公告内容</div>
-          </div>
-          <div class="sticky_layout">
-            <div class="card-widget card-webinfo">
-              <div class="item-headline">
-                <i class="fas fa-chart-line"></i><span>Website Info</span>
-              </div>
-              <div class="webinfo">
-                <div class="webinfo-item">
-                  <div class="item-name">Article Count :</div>
-                  <div class="item-count">15</div>
-                </div>
-                <div class="webinfo-item">
-                  <div class="item-name">Unique Visitors :</div>
-                  <div class="item-count" id="busuanzi_value_site_uv">
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                  </div>
-                </div>
-                <div class="webinfo-item">
-                  <div class="item-name">Page Views :</div>
-                  <div class="item-count" id="busuanzi_value_site_pv">
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                  </div>
-                </div>
-                <div class="webinfo-item">
-                  <div class="item-name">Last Update :</div>
-                  <div
-                    class="item-count"
-                    id="last-push-date"
-                    data-lastPushDate="2024-10-29T13:27:51.205Z"
-                  >
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      <footer id="footer">
-        <div id="footer-wrap">
-          <div class="copyright">&copy;2024 By Beson</div>
-          <div class="footer_custom_text">
-            I wish you to become your own sun, no need to rely on who's light.
-            <p>
-              <a target="_blank" href="https://hexo.io/"
-                ><img
-                  src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo"
-                  title="博客框架为Hexo" /></a
-              >&nbsp;<a target="_blank" href="https://butterfly.js.org/"
-                ><img
-                  src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender"
-                  title="主题采用butterfly" /></a
-              >&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"
-                ><img
-                  src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr"
-                  title="本站使用JsDelivr为静态资源提供CDN加速"
-              /></a>
-              &nbsp;<a target="_blank" href="https://vercel.com/ "
-                ><img
-                  src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel"
-                  title="本站采用双线部署，默认线路托管于Vercel" /></a
-              >&nbsp;<a target="_blank" href="https://vercel.com/ "
-                ><img
-                  src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio"
-                  title="本站采用双线部署，联通线路托管于Coding" /></a
-              >&nbsp;<a target="_blank" href="https://github.com/"
-                ><img
-                  src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub"
-                  title="本站项目由Gtihub托管" /></a
-              >&nbsp;<a
-                target="_blank"
-                href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-                ><img
-                  src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris"
-                  title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"
-              /></a>
-            </p>
-            #
-            是一个给你用来在页脚自定义文本的选项。通常你可以在这里写声明文本等,支持
-            HTML。
-          </div>
-        </div>
-      </footer>
-    </div>
-    <div id="rightside">
-      <div id="rightside-config-hide">
-        <button
-          id="hide-aside-btn"
-          type="button"
-          title="Toggle Between Single-column and Double-column"
-        >
-          <i class="fas fa-arrows-alt-h"></i>
-        </button>
-      </div>
-      <div id="rightside-config-show">
-        <button id="go-up" type="button" title="Back to Top">
-          <span class="scroll-percent"></span><i class="fas fa-arrow-up"></i>
-        </button>
-      </div>
-    </div>
-    <div>
-      <script src="/js/utils.js"></script>
-      <script src="/js/main.js"></script>
-      <div class="js-pjax">
-        <script>
-          window.typedJSFn = {
-            init: (str) => {
-              window.typed = new Typed(
-                "#subtitle",
-                Object.assign(
-                  {
-                    strings: str,
-                    startDelay: 300,
-                    typeSpeed: 150,
-                    loop: true,
-                    backSpeed: 50,
-                  },
-                  null
-                )
-              );
-            },
-            run: (subtitleType) => {
-              if (true) {
-                if (typeof Typed === "function") {
-                  subtitleType();
-                } else {
-                  btf
-                    .getScript(
-                      "https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js"
-                    )
-                    .then(subtitleType);
-                }
-              } else {
-                subtitleType();
-              }
-            },
-          };
-          btf.addGlobalFn(
-            "pjaxSendOnce",
-            () => {
-              typed.destroy();
-            },
-            "typedDestroy"
-          );
-        </script>
-        <script>
-          function subtitleType() {
-            if (true) {
-              typedJSFn.init(["活着是为了什么？", "为了待会去码头整点薯片"]);
-            } else {
-              document.getElementById("subtitle").textContent =
-                "活着是为了什么？";
-            }
-          }
-          typedJSFn.run(subtitleType);
-        </script>
-      </div>
-      <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
-      <script>
-        (() => {
-          const pjaxSelectors = [
-            "head > title",
-            "#config-diff",
-            "#body-wrap",
-            "#rightside-config-hide",
-            "#rightside-config-show",
-            ".js-pjax",
-          ];
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: Beson","link":"Link: ","source":"Source: 松果猿的博客","info":"Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source."}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '松果猿的博客',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-10-29 21:41:22'
+}</script><link rel="stylesheet" href="/css/font.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(url(https://source.fomal.cc/img/dm1.webp));"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/image/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">10</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(image/666.gif);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">松果猿的博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">松果猿的博客</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://blog.beson.top/image/weixin.png" target="_blank" title="微信"><i class="iconfont icon-weixin"></i></a><a class="social-icon" href="https://github.com/songguo1" target="_blank" title="GitHub"><i class="iconfont icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/2301_78796401" target="_blank" title="CSDN"><i class="iconfont icon-csdn"></i></a><a class="social-icon" href="https://www.zhihu.com/people/m8bxac" target="_blank" title="知乎"><i class="iconfont icon-zhihu-circle-fill"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2024/10/27/AI/ChatAPI/" title="国内主流大模型api调用的整理（个人转载笔记）"><img class="post-bg" src="/image/cover/AI-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="国内主流大模型api调用的整理（个人转载笔记）"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/27/AI/ChatAPI/" title="国内主流大模型api调用的整理（个人转载笔记）">国内主流大模型api调用的整理（个人转载笔记）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-27T06:21:52.533Z" title="Created 2024-10-27 14:21:52">2024-10-27</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-27T06:21:03.045Z" title="Updated 2024-10-27 14:21:03">2024-10-27</time></span></div><div class="content">一、月之暗面 &#x2F; Kimi chat API key申请地址：https://platform.moonshot.cn/console/api-keys API文档地址：https://platform.moonshot.cn/docs API定价信息：https://platform.moonshot.cn/docs/price/chat 二、百度 &#x2F; 文心一言 （骂街系列~~） 流程很麻烦，也不好找！ 先要申请Key，先要创建应用。登录百度智能云千帆控制台创建应用，创建成功后，在应用列表页获取AppID、API Key、Secret Key 等信息。 API...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/10/27/Front-end/Next.js/env-next/" title="Next.js项目环境变量配置"><img class="post-bg" src="/image/cover/front-end-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Next.js项目环境变量配置"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/27/Front-end/Next.js/env-next/" title="Next.js项目环境变量配置">Next.js项目环境变量配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-27T05:38:49.868Z" title="Created 2024-10-27 13:38:49">2024-10-27</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-27T05:38:19.445Z" title="Updated 2024-10-27 13:38:19">2024-10-27</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/Next-js/">Next.js</a></span></div><div class="content"> [Next.js官方文档](Configuring: Environment Variables | Next.js)  Next.js 具有对将环境变量从 .env* 文件加载到 process.env 的内置支持。 123DB_HOST=localhostDB_USER=myuserDB_PASS=mypassword  1. 创建环境变量文件在项目根目录下创建以下文件来存储不同环境的环境变量：  .env.local：本地开发环境变量，不应该提交到版本控制。 .env.development：开发环境变量。 .env.test：测试环境变量。 .env.production：生产环境变量。  这些文件应该以键值对的形式存储环境变量，例如： .env.development 123DB_HOST=localhostDB_USER=myuserDB_PASS=mypassword  .env.production 123DB_HOST=prod.example.comDB_USER=produserDB_PASS=prodpassword  2. 使用环境变量在...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/10/24/Front-end/Next.js/orm-Prisma/" title="在Next.js项目中使用Prisma连接PostgreSQL数据库"><img class="post-bg" src="/image/cover/front-end-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="在Next.js项目中使用Prisma连接PostgreSQL数据库"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/24/Front-end/Next.js/orm-Prisma/" title="在Next.js项目中使用Prisma连接PostgreSQL数据库">在Next.js项目中使用Prisma连接PostgreSQL数据库</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-24T03:47:03.822Z" title="Created 2024-10-24 11:47:03">2024-10-24</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-24T03:46:15.047Z" title="Updated 2024-10-24 11:46:15">2024-10-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/Next-js/">Next.js</a></span></div><div class="content">Prisma教学视频:https://www.youtube.com/watch?v=QXxy8Uv1LnQhttps://www.youtube.com/watch?v=RebA5J-rlwgPrisma中文文档：https://prisma.org.cn/docs/orm  安装 Prisma ORM 安装Prisma CLi： 1npm install prisma --save-dev  设置 Prisma ORM： 1npx prisma init   此命令执行两件事  创建一个名为 prisma 的新目录，其中包含一个名为 schema.prisma 的文件，该文件包含 Prisma 架构，其中包含您的数据库连接变量和架构模型 在项目的根目录中创建 .env 文件，用于定义环境变量（例如您的数据库连接）    连接 PostgreSQL数据库 prisma/schema.prisma： 1234datasource db &#123;	provider = &quot;postgresql&quot;	url      =...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/10/20/AI/cursor_1/" title="人人都能傻瓜式编程！！？？——cursor初体验"><img class="post-bg" src="/image/cover/cursor.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="人人都能傻瓜式编程！！？？——cursor初体验"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/20/AI/cursor_1/" title="人人都能傻瓜式编程！！？？——cursor初体验">人人都能傻瓜式编程！！？？——cursor初体验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-20T07:00:05.744Z" title="Created 2024-10-20 15:00:05">2024-10-20</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-20T07:02:11.830Z" title="Updated 2024-10-20 15:02:11">2024-10-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI/">AI</a></span></div><div class="content"> 最近Cursor这个AI编程工具刷屏了。说实话，AI编程工具近年层出不穷，我也见怪不怪了，主要是没有遇到一个能让我眼前一亮的产品，但是这一次的AI工具真的是惊艳到我了，几乎是没有任何编程基础的小白都能够制作一个小插件或者网站，Cloudflare副总裁的8岁女儿用Cursor在 45 分钟内搭起来一个聊天机器人，那这我得看看到底是什么神奇的AI工具。  来到官网，点击Download for Free，会下载一个安装包，按照步骤进行安装就可以了  新用户有两周的免费的Pro体验时间的，到期后如果还想使用，需要按照每月20$进行续费  不过我从网上看到可以白嫖的方法：到期后注销你的账号，直接再用原账号注册一个又会重新又有两周的体验时间（白嫖党的福音）。   下载好后进入，咦？这Cursor的IDE怎么和VS Code一个样？  然后去官方文档看了一下：“Cursor 是 VS Code 的一个分支。”原来如此，你当然也可以将VS Code 配置和扩展导入...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/10/19/Tech_Musings/stream/" title="stream流"><img class="post-bg" src="/image/cover/musing.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="stream流"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/19/Tech_Musings/stream/" title="stream流">stream流</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-19T12:28:34.810Z" title="Created 2024-10-19 20:28:34">2024-10-19</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-19T12:28:00.211Z" title="Updated 2024-10-19 20:28:00">2024-10-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/10/19/Front-end/Basic/ajax-axios-fetch/" title="fetch、axios和ajax三种网络请求方式详解"><img class="post-bg" src="/image/cover/front-end-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="fetch、axios和ajax三种网络请求方式详解"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/19/Front-end/Basic/ajax-axios-fetch/" title="fetch、axios和ajax三种网络请求方式详解">fetch、axios和ajax三种网络请求方式详解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-19T10:00:46.829Z" title="Created 2024-10-19 18:00:46">2024-10-19</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-19T09:57:10.756Z" title="Updated 2024-10-19 17:57:10">2024-10-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="content">fetch、axios 和 ajax 是三种常用的在前端发送网络请求的方法。它们各有特点和适用场景： 1. Fetch APIfetch 是一个现代的 JavaScript API，用于在浏览器中发起网络请求。它返回一个 Promise 对象，使得异步请求更加简洁和易于管理。 基本用法： 12345678910111213fetch(&#x27;https://api.example.com/data&#x27;)  .then(response =&gt; &#123;    if (!response.ok) &#123;      throw new Error(&#x27;Network response was not ok&#x27;);    &#125;    return response.json();  &#125;)  .then(data =&gt; &#123;    console.log(data);  &#125;)  .catch(error =&gt; &#123;    console.error(&#x27;There has been...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/10/16/Front-end/TypeScript/ts-type-interface/" title="TypeScript中interface接口 type关键字 enum枚举类型"><img class="post-bg" src="/image/cover/front-end-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript中interface接口 type关键字 enum枚举类型"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/16/Front-end/TypeScript/ts-type-interface/" title="TypeScript中interface接口 type关键字 enum枚举类型">TypeScript中interface接口 type关键字 enum枚举类型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-16T15:39:44.318Z" title="Created 2024-10-16 23:39:44">2024-10-16</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-16T15:39:01.862Z" title="Updated 2024-10-16 23:39:01">2024-10-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/TypeScript/">TypeScript</a></span></div><div class="content"> type interface总是傻傻分不清~~~  Type Aliases (type)type 关键字用于为类型定义一个别名。这可以是基本类型、联合类型、元组、数组、函数等。type 定义的类型在编译后的 JavaScript 代码中会被移除，不会留下任何运行时的代码。 1234567891011121314151617//联合类型type StringOrNumber = string | number;type StringOrNumber = 1 | 2;//数组类型type Point = number[];//元组类型type Point = [number, number];//函数类型type Greeter = (name: string) =&gt; void;const myPoint: Point = [10, 20];const greet: Greeter = function(name) &#123;  console.log(&quot;Hello, &quot; + name);&#125;;  Interfaces...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/10/15/Tech_Musings/DocumentFlow/" title="CSS文档流特点"><img class="post-bg" src="/image/cover/Musing.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSS文档流特点"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/15/Tech_Musings/DocumentFlow/" title="CSS文档流特点">CSS文档流特点</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-15T15:59:41.521Z" title="Created 2024-10-15 23:59:41">2024-10-15</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-15T15:59:07.813Z" title="Updated 2024-10-15 23:59:07">2024-10-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></span></div><div class="content"> 顺序流布局：元素按照 HTML 中的顺序从上到下排列。块级元素（block-level elements）独占一行，内联元素（inline elements）则并排排列。 块级元素：块级元素（如 &lt;div&gt;, &lt;p&gt;, &lt;section&gt; 等）默认会填充父容器的宽度，并且前后带有换行符。 内联元素：内联元素（如 &lt;span&gt;, &lt;a&gt;, &lt;img&gt; 等）不会独占一行，它们会与其他内联元素并排显示，直到填满行宽。 格式化上下文：文档流中的元素会生成块级格式化上下文（BFC）或内联格式化上下文（IFC），这决定了元素如何相对于彼此进行布局。 包含块：每个元素都有一个包含块（containing block），这是用于计算元素尺寸和定位的参考区域。对于块级元素，通常是其父元素的内容区域；对于内联元素，可能是行框（line...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/10/15/Front-end/Basic/css-2/" title="常见的CSS页面布局"><img class="post-bg" src="/image/cover/front-end-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常见的CSS页面布局"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/15/Front-end/Basic/css-2/" title="常见的CSS页面布局">常见的CSS页面布局</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-15T10:01:31.494Z" title="Created 2024-10-15 18:01:31">2024-10-15</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-15T10:00:15.859Z" title="Updated 2024-10-15 18:00:15">2024-10-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="content"> 懒得整理了，直接贴链接~~~  参考文章:https://www.ruanyifeng.com/blog/2020/08/five-css-layouts-in-one-line.htmlhttps://blog.csdn.net/itcast_cn/article/details/130812702示例：https://1linelayouts.glitch.me/ 使用 CSS 制作的流行布局和模式的集合。现在它有 100+ 种模式，并且还在继续增长:https://github.com/phuocng/csslayout </div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/10/15/Front-end/Basic/css-1/" title="css布局-1"><img class="post-bg" src="/image/cover/front-end-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="css布局-1"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/10/15/Front-end/Basic/css-1/" title="css布局-1">css布局-1</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-10-15T08:54:14.075Z" title="Created 2024-10-15 16:54:14">2024-10-15</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-15T09:01:23.928Z" title="Updated 2024-10-15 17:01:23">2024-10-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="content">参考文章：https://blog.csdn.net/qq_38473254/article/details/124774497https://blog.csdn.net/weixin_48051526/article/details/140731821https://blog.csdn.net/qq_69183322/article/details/136102095https://zhuanlan.zhihu.com/p/29070363https://zhuanlan.zhihu.com/p/161822219 position定位布局   属性值 作用    absolute 生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。元素的位置通过 “left”, “top”, “right” 以及 “bottom” 属性进行规定。   fixed 生成固定定位的元素，相对于浏览器窗口进行定位。元素的位置通过 “left”, “top”, “right” 以及 “bottom”...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Beson</div><div class="author-info-description">Hello World</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/songguo1"><i class="fab fa-github"></i><span>🛴前往小家...</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://blog.beson.top/image/weixin.png" target="_blank" title="微信"><i class="iconfont icon-weixin"></i></a><a class="social-icon" href="https://github.com/songguo1" target="_blank" title="GitHub"><i class="iconfont icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/2301_78796401" target="_blank" title="CSDN"><i class="iconfont icon-csdn"></i></a><a class="social-icon" href="https://www.zhihu.com/people/m8bxac" target="_blank" title="知乎"><i class="iconfont icon-zhihu-circle-fill"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">公告内容</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">15</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-10-29T13:41:22.422Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By Beson</div><div class="footer_custom_text">I wish you to become your own sun, no need to rely on who's light.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p># 是一个给你用来在页脚自定义文本的选项。通常你可以在这里写声明文本等,支持 HTML。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["活着是为了什么？","为了待会去码头整点薯片"])
+  } else {
+    document.getElementById("subtitle").textContent = "活着是为了什么？"
+  }
+}
+typedJSFn.run(subtitleType)</script></div><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
 
-          window.pjax = new Pjax({
-            elements:
-              'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
-            selectors: pjaxSelectors,
-            cacheBust: false,
-            analytics: false,
-            scrollRestoration: false,
-          });
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
 
-          const triggerPjaxFn = (val) => {
-            if (!val) return;
-            Object.values(val).forEach((fn) => fn());
-          };
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
 
-          document.addEventListener("pjax:send", () => {
-            // removeEventListener
-            btf.removeGlobalFnEvent("pjaxSendOnce");
-            btf.removeGlobalFnEvent("themeChange");
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
 
-            // reset readmode
-            const $bodyClassList = document.body.classList;
-            if ($bodyClassList.contains("read-mode"))
-              $bodyClassList.remove("read-mode");
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
 
-            triggerPjaxFn(window.globalFn.pjaxSend);
-          });
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
 
-          document.addEventListener("pjax:complete", () => {
-            btf.removeGlobalFnEvent("pjaxCompleteOnce");
-            document.querySelectorAll("script[data-pjax]").forEach((item) => {
-              const newScript = document.createElement("script");
-              const content =
-                item.text || item.textContent || item.innerHTML || "";
-              Array.from(item.attributes).forEach((attr) =>
-                newScript.setAttribute(attr.name, attr.value)
-              );
-              newScript.appendChild(document.createTextNode(content));
-              item.parentNode.replaceChild(newScript, item);
-            });
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
 
-            triggerPjaxFn(window.globalFn.pjaxComplete);
-          });
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
 
-          document.addEventListener("pjax:error", (e) => {
-            if (e.request.status === 404) {
-              pjax.loadUrl("/404.html");
-            }
-          });
-        })();
-      </script>
-      <script
-        async
-        data-pjax
-        src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
-      ></script>
-    </div>
-  </body>
-</html>
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
