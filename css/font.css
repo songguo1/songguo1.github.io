@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4705045 */
-  src: url('//at.alicdn.com/t/c/font_4705045_q8ncxw1xmu.woff2?t=1732592042256') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4705045_q8ncxw1xmu.woff?t=1732592042256') format('woff'),
-       url('//at.alicdn.com/t/c/font_4705045_q8ncxw1xmu.ttf?t=1732592042256') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_4705045_m02croeaobc.woff2?t=1732617857824') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4705045_m02croeaobc.woff?t=1732617857824') format('woff'),
+       url('//at.alicdn.com/t/c/font_4705045_m02croeaobc.ttf?t=1732617857824') format('truetype');
 }
   
   .iconfont {
@@ -21,7 +21,7 @@
 
   .icon-Bzhan:before {
 
-    content: "\e602";
+    content: "\e60b";
     color: #FB7299;
     font-size: 22px;
   }
