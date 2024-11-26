@@ -12,6 +12,29 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  .icon-juejin:before {
+    content: "\e601";
+    color: #2db7f5;
+    font-size: 22px;
+  }
+
+  .icon-Bzhan:before {
+
+    content: "\e602";
+    color: #FB7299;
+    font-size: 22px;
+  }
+  
+  
+  .icon-gongzhonghao:before {
+    content: "\eb79";
+    font-size: 22px;
+    color: #7bb32e
+    /* 公众号图标颜色 */
+    
+  
+  }
   
   .icon-csdn:before {
     content: "\e600";
@@ -36,4 +59,6 @@
     color: #0084ff;
     font-size: 22px;
   }
+
+  
   
