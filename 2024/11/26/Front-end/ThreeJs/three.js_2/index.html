@@ -1,0 +1,796 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Three.js的学习（2）—— Three.js 的一些关键特性 | 松果猿的博客</title><meta name="author" content="Beson"><meta name="copyright" content="Beson"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="文章同步更新于我的个人博客：松果猿的博客，欢迎访问获取更多技术分享。 同时，您也可以关注我的微信公众号：松果猿的代码工坊，获取最新文章推送和编程技巧。   记录本人three.js的学习之路  官网：Three.js – JavaScript 3D Library 中文教程：Three.js中文网 Github：mrdoob&#x2F;three.js: JavaScript 3D Librar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Three.js的学习（2）—— Three.js 的一些关键特性">
+<meta property="og:url" content="https://blog.beson.top/2024/11/26/Front-end/ThreeJs/three.js_2/index.html">
+<meta property="og:site_name" content="松果猿的博客">
+<meta property="og:description" content="文章同步更新于我的个人博客：松果猿的博客，欢迎访问获取更多技术分享。 同时，您也可以关注我的微信公众号：松果猿的代码工坊，获取最新文章推送和编程技巧。   记录本人three.js的学习之路  官网：Three.js – JavaScript 3D Library 中文教程：Three.js中文网 Github：mrdoob&#x2F;three.js: JavaScript 3D Librar">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.beson.top/image/cover/ThreeJs.png">
+<meta property="article:published_time" content="2024-11-26T02:50:16.793Z">
+<meta property="article:modified_time" content="2024-11-26T03:02:12.046Z">
+<meta property="article:author" content="Beson">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.beson.top/image/cover/ThreeJs.png"><link rel="shortcut icon" href="/image/favicon/medium_favicon.svg"><link rel="canonical" href="https://blog.beson.top/2024/11/26/Front-end/ThreeJs/three.js_2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: Beson","link":"Link: ","source":"Source: 松果猿的博客","info":"Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source."}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Three.js的学习（2）—— Three.js 的一些关键特性',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-26 11:02:12'
+}</script><link rel="stylesheet" href="/css/font.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(url(https://source.fomal.cc/img/dm1.webp));"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/image/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(image/top_img/ThreeJs.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">松果猿的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">Three.js的学习（2）—— Three.js 的一些关键特性</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Three.js的学习（2）—— Three.js 的一些关键特性</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-11-26T02:50:16.793Z" title="Created 2024-11-26 10:50:16">2024-11-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-11-26T03:02:12.046Z" title="Updated 2024-11-26 11:02:12">2024-11-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>文章同步更新于我的个人博客：<a href="https://blog.beson.top/">松果猿的博客</a>，欢迎访问获取更多技术分享。</p>
+<p>同时，您也可以关注我的微信公众号：<strong>松果猿的代码工坊</strong>，获取最新文章推送和编程技巧。</p>
+</blockquote>
+<blockquote>
+<p>记录本人three.js的学习之路</p>
+<ul>
+<li>官网：<a target="_blank" rel="noopener" href="https://threejs.org/">Three.js – JavaScript 3D Library</a></li>
+<li>中文教程：<a target="_blank" rel="noopener" href="http://www.webgl3d.cn/">Three.js中文网</a></li>
+<li>Github：<a target="_blank" rel="noopener" href="https://github.com/mrdoob/three.js/">mrdoob&#x2F;three.js: JavaScript 3D Library.</a></li>
+</ul>
+</blockquote>
+<p>在 上一篇文章【Three.js的学习（1）】里，我们已经创建了一个基本的场景。</p>
+<p>下面我们对three.js每个特性做一个大致的了解</p>
+<h1 id="1-场景（Scene）"><a href="#1-场景（Scene）" class="headerlink" title="1. 场景（Scene）"></a>1. <strong>场景（Scene）</strong></h1><p>场景是一个容器对象，可以包含物体、摄像机、灯光和渲染器。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>代码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建场景</td>
+<td><code>const scene = new THREE.Scene();</code></td>
+<td>创建一个3D场景容器</td>
+</tr>
+<tr>
+<td>获取场景中的对象</td>
+<td><code>scene.getObjectByName(&#39;cube&#39;);</code></td>
+<td>通过名称查找场景中的对象</td>
+</tr>
+<tr>
+<td>遍历场景对象</td>
+<td><code>scene.traverse(function(obj) &#123;&#125;);</code></td>
+<td>遍历场景中的所有对象</td>
+</tr>
+<tr>
+<td>添加雾效果</td>
+<td><code>scene.fog = new THREE.Fog(0x000000, 1, 1000);</code></td>
+<td>为场景添加雾化效果</td>
+</tr>
+<tr>
+<td>克隆场景</td>
+<td><code>scene.clone();</code></td>
+<td>创建场景的副本</td>
+</tr>
+<tr>
+<td>检查对象是否在场景中</td>
+<td><code>scene.children.includes(object);</code></td>
+<td>判断对象是否存在于场景中</td>
+</tr>
+<tr>
+<td>获取场景对象数量</td>
+<td><code>scene.children.length;</code></td>
+<td>获取场景中对象的数量</td>
+</tr>
+<tr>
+<td>更新场景矩阵</td>
+<td><code>scene.updateMatrix();</code></td>
+<td>更新场景的变换矩阵</td>
+</tr>
+<tr>
+<td>移除单个对象</td>
+<td><code>scene.remove(mesh);</code></td>
+<td>从场景中移除指定的3D对象</td>
+</tr>
+<tr>
+<td>移除多个对象</td>
+<td><code>scene.remove(mesh1, mesh2, mesh3);</code></td>
+<td>同时移除多个指定的对象</td>
+</tr>
+</tbody></table>
+<h1 id="2-几何体（Geometry）"><a href="#2-几何体（Geometry）" class="headerlink" title="2. 几何体（Geometry）"></a>2. 几何体<strong>（Geometry）</strong></h1><p>几何体定义了物体的形状和结构，例如立方体、球体、圆柱体等。</p>
+<table>
+<thead>
+<tr>
+<th align="left">几何体类型</th>
+<th align="left">描述</th>
+<th align="left">创建方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">立方体（Box）</td>
+<td align="left">一个六面体，每个面都是矩形。</td>
+<td align="left"><code>var geometry = new THREE.BoxGeometry(width, height, depth);</code></td>
+</tr>
+<tr>
+<td align="left">球体（Sphere）</td>
+<td align="left">一个圆形的三维几何体。</td>
+<td align="left"><code>var geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);</code></td>
+</tr>
+<tr>
+<td align="left">圆柱体（Cylinder）</td>
+<td align="left">一个直的圆柱体。</td>
+<td align="left"><code>var geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded);</code></td>
+</tr>
+<tr>
+<td align="left">圆环体（Torus）</td>
+<td align="left">一个甜甜圈形状的几何体。</td>
+<td align="left"><code>var geometry = new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments, arc);</code></td>
+</tr>
+<tr>
+<td align="left">平面（Plane）</td>
+<td align="left">一个无限大的平面。</td>
+<td align="left"><code>var geometry = new THREE.PlaneGeometry(width, height);</code></td>
+</tr>
+<tr>
+<td align="left">圆（Circle）</td>
+<td align="left">一个二维圆形。</td>
+<td align="left"><code>var geometry = new THREE.CircleGeometry(radius, segments, thetaStart, thetaLength);</code></td>
+</tr>
+</tbody></table>
+<p>创建几何体后，通常需要与材料（Material）一起使用来渲染几何体，如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个立方体几何体</span></span><br><span class="line"><span class="keyword">var</span> geometry = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">BoxGeometry</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个材料</span></span><br><span class="line"><span class="keyword">var</span> material = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">MeshBasicMaterial</span>(&#123;<span class="attr">color</span>: <span class="number">0x00ff00</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建网格（Mesh），网格由几何体和材料组成</span></span><br><span class="line"><span class="keyword">var</span> cube = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">Mesh</span>(geometry, material);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将网格添加到场景中</span></span><br><span class="line">scene.<span class="title function_">add</span>(cube);</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>主要的方法属性</strong></em></p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>vertices</code></td>
+<td align="left">包含几何体所有顶点的数组。</td>
+</tr>
+<tr>
+<td align="left"><code>faces</code></td>
+<td align="left">包含几何体所有面的数组。</td>
+</tr>
+<tr>
+<td align="left"><code>faceVertexUvs</code></td>
+<td align="left">包含几何体所有面的纹理坐标的数组。</td>
+</tr>
+<tr>
+<td align="left"><code>boundingBox</code></td>
+<td align="left">几何体的轴对齐边界框（Axis-Aligned Bounding Box），用于快速剔除和碰撞检测等。</td>
+</tr>
+<tr>
+<td align="left"><code>boundingSphere</code></td>
+<td align="left">几何体的包围球，用于快速剔除和碰撞检测等。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>clone()</code></td>
+<td align="left">创建当前几何体的一个副本。</td>
+</tr>
+<tr>
+<td align="left"><code>dispose()</code></td>
+<td align="left">释放几何体的内存，包括所有的属性数组。</td>
+</tr>
+<tr>
+<td align="left"><code>computeVertexNormals()</code></td>
+<td align="left">计算顶点法线，用于平滑光照。</td>
+</tr>
+<tr>
+<td align="left"><code>merge()</code></td>
+<td align="left">将参数中的几何体合并到当前几何体中。</td>
+</tr>
+<tr>
+<td align="left"><code>rotateX()</code></td>
+<td align="left">绕X轴旋转几何体。</td>
+</tr>
+<tr>
+<td align="left"><code>rotateY()</code></td>
+<td align="left">绕Y轴旋转几何体。</td>
+</tr>
+<tr>
+<td align="left"><code>rotateZ()</code></td>
+<td align="left">绕Z轴旋转几何体。</td>
+</tr>
+<tr>
+<td align="left"><code>translate()</code></td>
+<td align="left">平移几何体。</td>
+</tr>
+<tr>
+<td align="left"><code>scale()</code></td>
+<td align="left">缩放几何体。</td>
+</tr>
+<tr>
+<td align="left"><code>center()</code></td>
+<td align="left">将几何体居中于原点。</td>
+</tr>
+</tbody></table>
+<p><em><strong>赋值方法</strong></em></p>
+<table>
+<thead>
+<tr>
+<th>属性&#x2F;方法</th>
+<th>描述</th>
+<th>代码示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>直接赋值</strong></td>
+<td>直接创建一个新的 <code>Vector3</code> 实例并赋值给对象的属性。</td>
+<td><code>javascript&lt;br&gt;sphere.position = new THREE.Vector3(0, 0, 0);&lt;br&gt;sphere.rotation = new THREE.Vector3(0.5 * Math.PI, 0, 0);&lt;br&gt;sphere.scale = new THREE.Vector3(2, 0, 0);&lt;br&gt;</code></td>
+</tr>
+<tr>
+<td><strong>单个赋值</strong></td>
+<td>直接对 <code>Vector3</code> 对象的 <code>x</code>、<code>y</code>、<code>z</code> 属性进行赋值。</td>
+<td><code>javascript&lt;br&gt;sphere.position.x = 0;&lt;br&gt;sphere.rotation.x = 0.5 * Math.PI;&lt;br&gt;sphere.scale.x = 2;&lt;br&gt;</code></td>
+</tr>
+<tr>
+<td><strong>通过方法赋值</strong></td>
+<td>使用 <code>Vector3</code> 对象的 <code>set</code> 方法来赋值。</td>
+<td><code>javascript&lt;br&gt;sphere.position.set(0, 0, 0);&lt;br&gt;sphere.rotation.set(0.5 * Math.PI, 0, 0);&lt;br&gt;sphere.scale.set(2, 0, 0);&lt;br&gt;</code></td>
+</tr>
+</tbody></table>
+<h1 id="3-摄像机（Camera）"><a href="#3-摄像机（Camera）" class="headerlink" title="3. 摄像机（Camera）"></a>3. <strong>摄像机（Camera）</strong></h1><p>在 Three.js 中，摄像机（Camera）是用于定义场景视图和投影方式的对象。以下是一些常用的摄像机类型及其属性和方法的概述：</p>
+<h3 id="透视摄像机（PerspectiveCamera）"><a href="#透视摄像机（PerspectiveCamera）" class="headerlink" title="透视摄像机（PerspectiveCamera）"></a>透视摄像机（PerspectiveCamera）</h3><p>透视摄像机模拟人眼的视觉效果，即远处的物体看起来更小。</p>
+<p>正交摄像机提供无透视的视图，即物体的大小不会随着距离变化。</p>
+<p><img src="/2024/11/26/Front-end/ThreeJs/three.js_2/%E8%A7%86%E9%94%A5%E4%BD%93.png" alt="视锥体"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">PerspectiveCamera</span>( fov, aspect, near, far )</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">属性&#x2F;方法</th>
+<th align="left">描述</th>
+<th align="left">使用方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>fov</code></td>
+<td align="left">视野角度，以度为单位。</td>
+<td align="left"><code>camera.fov = 75;</code></td>
+</tr>
+<tr>
+<td align="left"><code>aspect</code></td>
+<td align="left">摄像机的宽高比，通常是窗口或渲染器的宽度除以高度。</td>
+<td align="left"><code>camera.aspect = window.innerWidth / window.innerHeight;</code></td>
+</tr>
+<tr>
+<td align="left"><code>near</code></td>
+<td align="left">摄像机的近裁剪面，较小的值可以提高性能，但可能导致渲染问题。</td>
+<td align="left"><code>camera.near = 0.1;</code></td>
+</tr>
+<tr>
+<td align="left"><code>far</code></td>
+<td align="left">摄像机的远裁剪面，较大的值可以包含更多的场景，但可能影响性能。</td>
+<td align="left"><code>camera.far = 1000;</code></td>
+</tr>
+<tr>
+<td align="left"><code>updateProjectionMatrix</code></td>
+<td align="left">更新摄像机的投影矩阵。</td>
+<td align="left"><code>camera.updateProjectionMatrix();</code></td>
+</tr>
+<tr>
+<td align="left"><code>lookAt</code></td>
+<td align="left">使摄像机的前方指向指定的点。</td>
+<td align="left"><code>camera.lookAt(scene.position);</code></td>
+</tr>
+</tbody></table>
+<h3 id="正交摄像机（OrthographicCamera）"><a href="#正交摄像机（OrthographicCamera）" class="headerlink" title="正交摄像机（OrthographicCamera）"></a>正交摄像机（OrthographicCamera）</h3><p><img src="/2024/11/26/Front-end/ThreeJs/three.js_2/%E6%AD%A3%E6%8A%95%E5%BD%B1%E5%8F%AF%E8%A7%86%E7%A9%BA%E9%97%B4.png" alt="img"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">OrthographicCamera</span>( left, right, top, bottom, near, far )</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">属性&#x2F;方法</th>
+<th align="left">描述</th>
+<th align="left">使用方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>left</code></td>
+<td align="left">摄像机视图的左边界。</td>
+<td align="left"><code>camera.left = -10;</code></td>
+</tr>
+<tr>
+<td align="left"><code>right</code></td>
+<td align="left">摄像机视图的右边界。</td>
+<td align="left"><code>camera.right = 10;</code></td>
+</tr>
+<tr>
+<td align="left"><code>top</code></td>
+<td align="left">摄像机视图的上边界。</td>
+<td align="left"><code>camera.top = 10;</code></td>
+</tr>
+<tr>
+<td align="left"><code>bottom</code></td>
+<td align="left">摄像机视图的下边界。</td>
+<td align="left"><code>camera.bottom = -10;</code></td>
+</tr>
+<tr>
+<td align="left"><code>near</code></td>
+<td align="left">摄像机的近裁剪面。</td>
+<td align="left"><code>camera.near = -10;</code></td>
+</tr>
+<tr>
+<td align="left"><code>far</code></td>
+<td align="left">摄像机的远裁剪面。</td>
+<td align="left"><code>camera.far = 1000;</code></td>
+</tr>
+<tr>
+<td align="left"><code>updateProjectionMatrix</code></td>
+<td align="left">更新摄像机的投影矩阵。</td>
+<td align="left"><code>camera.updateProjectionMatrix();</code></td>
+</tr>
+<tr>
+<td align="left"><code>lookAt</code></td>
+<td align="left">使摄像机的前方指向指定的点。</td>
+<td align="left"><code>camera.lookAt(scene.position);</code></td>
+</tr>
+</tbody></table>
+<h3 id="摄像机的共同方法"><a href="#摄像机的共同方法" class="headerlink" title="摄像机的共同方法"></a>摄像机的共同方法</h3><p>除了特定类型的摄像机属性外，还有一些方法是所有摄像机类型共有的：</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性&#x2F;方法</th>
+<th align="left">描述</th>
+<th align="left">使用方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>position</code></td>
+<td align="left">摄像机的位置。</td>
+<td align="left"><code>camera.position.set(x, y, z);</code></td>
+</tr>
+<tr>
+<td align="left"><code>rotation</code></td>
+<td align="left">摄像机的旋转。</td>
+<td align="left"><code>camera.rotation.set(x, y, z);</code></td>
+</tr>
+<tr>
+<td align="left"><code>scale</code></td>
+<td align="left">摄像机的缩放。</td>
+<td align="left"><code>camera.scale.set(scaleX, scaleY, scaleZ);</code></td>
+</tr>
+<tr>
+<td align="left"><code>updateMatrix</code></td>
+<td align="left">更新摄像机的矩阵。</td>
+<td align="left"><code>camera.updateMatrix();</code></td>
+</tr>
+<tr>
+<td align="left"><code>updateMatrixWorld</code></td>
+<td align="left">更新摄像机的世界矩阵。</td>
+<td align="left"><code>camera.updateMatrixWorld(true);</code></td>
+</tr>
+</tbody></table>
+<h3 id="使用摄像机"><a href="#使用摄像机" class="headerlink" title="使用摄像机"></a>使用摄像机</h3><p>以下是如何在 Three.js 中创建和使用摄像机的示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个透视摄像机</span></span><br><span class="line"><span class="keyword">var</span> camera = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">PerspectiveCamera</span>(<span class="number">75</span>, <span class="variable language_">window</span>.<span class="property">innerWidth</span> / <span class="variable language_">window</span>.<span class="property">innerHeight</span>, <span class="number">0.1</span>, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置摄像机的位置</span></span><br><span class="line">camera.<span class="property">position</span>.<span class="title function_">set</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将摄像机的前方指向场景的中心</span></span><br><span class="line">camera.<span class="title function_">lookAt</span>(<span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">Vector3</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建渲染器并添加到 DOM</span></span><br><span class="line"><span class="keyword">var</span> renderer = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">WebGLRenderer</span>();</span><br><span class="line">renderer.<span class="title function_">setSize</span>(<span class="variable language_">window</span>.<span class="property">innerWidth</span>, <span class="variable language_">window</span>.<span class="property">innerHeight</span>);</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(renderer.<span class="property">domElement</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 渲染场景</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">animate</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">requestAnimationFrame</span>(animate);</span><br><span class="line">    renderer.<span class="title function_">render</span>(scene, camera);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">animate</span>();</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们创建了一个透视摄像机，设置了它的位置和方向，并在渲染循环中使用它来渲染场景。</p>
+<h1 id="4-光源（Light）"><a href="#4-光源（Light）" class="headerlink" title="4. 光源（Light）"></a>4. 光源（Light）</h1><h3 id="光源类型"><a href="#光源类型" class="headerlink" title="光源类型"></a>光源类型</h3><table>
+<thead>
+<tr>
+<th>光源类型</th>
+<th>代码示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>环境光</strong></td>
+<td><code>const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);</code></td>
+<td>提供全局光照，不产生阴影。第一个参数为颜色，第二个参数为强度。</td>
+</tr>
+<tr>
+<td><strong>点光源</strong></td>
+<td><code>const pointLight = new THREE.PointLight(0xffffff, 1, 100);</code></td>
+<td>从一个点向各个方向发光，可以产生阴影。第一个参数为颜色，第二个参数为强度，第三个参数为距离。</td>
+</tr>
+<tr>
+<td><strong>平行光</strong></td>
+<td><code>const directionalLight = new THREE.DirectionalLight(0xffffff, 1);</code></td>
+<td>从一个方向发光，可以模拟太阳光，产生阴影。第一个参数为颜色，第二个参数为强度。</td>
+</tr>
+<tr>
+<td><strong>聚光灯</strong></td>
+<td><code>const spotLight = new THREE.SpotLight(0xffffff, 1);</code></td>
+<td>从一个点向特定方向发光，形成锥形光束。第一个参数为颜色，第二个参数为强度。可以设置角度、距离等属性。</td>
+</tr>
+<tr>
+<td><strong>半球光</strong></td>
+<td><code>const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);</code></td>
+<td>从上半球发光，产生柔和的光照效果。第一个参数为上半球颜色，第二个参数为下半球颜色，第三个参数为强度。</td>
+</tr>
+<tr>
+<td><strong>区域光</strong></td>
+<td><code>const rectAreaLight = new THREE.RectAreaLight(0xffffff, 1, width, height);</code></td>
+<td>从一个矩形区域发光，适合用于室内场景。</td>
+</tr>
+</tbody></table>
+<h3 id="常用属性和方法"><a href="#常用属性和方法" class="headerlink" title="常用属性和方法"></a>常用属性和方法</h3><ul>
+<li><strong>位置</strong>：通过 <code>light.position.set(x, y, z)</code> 设置光源的位置。</li>
+<li><strong>强度</strong>：通过 <code>light.intensity</code> 属性设置光源的强度。</li>
+<li><strong>颜色</strong>：通过 <code>light.color.set(0xff0000)</code> 设置光源的颜色。</li>
+<li><strong>阴影</strong>：通过 <code>light.castShadow = true</code> 启用光源的阴影效果。需要设置阴影属性，如 <code>light.shadow.mapSize.width</code> 和 <code>light.shadow.mapSize.height</code>。</li>
+<li><strong>衰减</strong>：点光源和聚光灯可以设置衰减属性，如 <code>light.distance</code> 和 <code>light.decay</code>。</li>
+</ul>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建场景</span></span><br><span class="line"><span class="keyword">const</span> scene = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">Scene</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建环境光</span></span><br><span class="line"><span class="keyword">const</span> ambientLight = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">AmbientLight</span>(<span class="number">0xffffff</span>, <span class="number">0.5</span>);</span><br><span class="line">scene.<span class="title function_">add</span>(ambientLight);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建点光源</span></span><br><span class="line"><span class="keyword">const</span> pointLight = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">PointLight</span>(<span class="number">0xffffff</span>, <span class="number">1</span>, <span class="number">100</span>);</span><br><span class="line">pointLight.<span class="property">position</span>.<span class="title function_">set</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line">scene.<span class="title function_">add</span>(pointLight);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建平行光</span></span><br><span class="line"><span class="keyword">const</span> directionalLight = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">DirectionalLight</span>(<span class="number">0xffffff</span>, <span class="number">1</span>);</span><br><span class="line">directionalLight.<span class="property">position</span>.<span class="title function_">set</span>(<span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>);</span><br><span class="line">scene.<span class="title function_">add</span>(directionalLight);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建聚光灯</span></span><br><span class="line"><span class="keyword">const</span> spotLight = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">SpotLight</span>(<span class="number">0xffffff</span>, <span class="number">1</span>);</span><br><span class="line">spotLight.<span class="property">position</span>.<span class="title function_">set</span>(<span class="number">0</span>, <span class="number">10</span>, <span class="number">0</span>);</span><br><span class="line">spotLight.<span class="property">angle</span> = <span class="title class_">Math</span>.<span class="property">PI</span> / <span class="number">6</span>; <span class="comment">// 设置光束角度</span></span><br><span class="line">scene.<span class="title function_">add</span>(spotLight);</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-材质（Material）："><a href="#5-材质（Material）：" class="headerlink" title="5. 材质（Material）："></a>5. 材质<strong>（Material）</strong>：</h1><h3 id="基本材质类型"><a href="#基本材质类型" class="headerlink" title="基本材质类型"></a>基本材质类型</h3><table>
+<thead>
+<tr>
+<th>材质类型</th>
+<th>代码</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基础材质</td>
+<td><code>new THREE.MeshBasicMaterial()</code></td>
+<td>不受光照影响，均匀着色</td>
+</tr>
+<tr>
+<td>lambert材质</td>
+<td><code>new THREE.MeshLambertMaterial()</code></td>
+<td>对光照有反应，漫反射</td>
+</tr>
+<tr>
+<td>Phong材质</td>
+<td><code>new THREE.MeshPhongMaterial()</code></td>
+<td>高光效果，可以模拟金属、塑料等</td>
+</tr>
+<tr>
+<td>标准材质</td>
+<td><code>new THREE.MeshStandardMaterial()</code></td>
+<td>基于物理的渲染(PBR)，真实感更强</td>
+</tr>
+<tr>
+<td>法线材质</td>
+<td><code>new THREE.MeshNormalMaterial()</code></td>
+<td>使用法线向量着色</td>
+</tr>
+</tbody></table>
+<h3 id="材质常用属性"><a href="#材质常用属性" class="headerlink" title="材质常用属性"></a>材质常用属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> material = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">MeshStandardMaterial</span>(&#123;</span><br><span class="line">    <span class="comment">// 颜色</span></span><br><span class="line">    <span class="attr">color</span>: <span class="number">0xff0000</span>,  <span class="comment">// 红色</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 透明度</span></span><br><span class="line">    <span class="attr">opacity</span>: <span class="number">0.5</span>,</span><br><span class="line">    <span class="attr">transparent</span>: <span class="literal">true</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 纹理</span></span><br><span class="line">    <span class="attr">map</span>: textureLoader.<span class="title function_">load</span>(<span class="string">&#x27;texture.jpg&#x27;</span>),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 高光</span></span><br><span class="line">    <span class="attr">shininess</span>: <span class="number">100</span>,  <span class="comment">// Phong材质特有</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 粗糙度和金属感(标准材质)</span></span><br><span class="line">    <span class="attr">roughness</span>: <span class="number">0.5</span>,  <span class="comment">// 0-1之间，表面粗糙程度</span></span><br><span class="line">    <span class="attr">metalness</span>: <span class="number">0.5</span>,  <span class="comment">// 0-1之间，金属感</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 环境贴图</span></span><br><span class="line">    <span class="attr">envMap</span>: envMap,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 是否显示线框</span></span><br><span class="line">    <span class="attr">wireframe</span>: <span class="literal">false</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="纹理贴图示例"><a href="#纹理贴图示例" class="headerlink" title="纹理贴图示例"></a>纹理贴图示例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建纹理加载器</span></span><br><span class="line"><span class="keyword">const</span> textureLoader = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">TextureLoader</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载纹理</span></span><br><span class="line"><span class="keyword">const</span> texture = textureLoader.<span class="title function_">load</span>(<span class="string">&#x27;texture.jpg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建材质</span></span><br><span class="line"><span class="keyword">const</span> material = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">MeshStandardMaterial</span>(&#123;</span><br><span class="line">    <span class="comment">// 颜色纹理</span></span><br><span class="line">    <span class="attr">map</span>: texture,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 法线贴图（凹凸感）</span></span><br><span class="line">    <span class="attr">normalMap</span>: normalTexture,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 粗糙度贴图</span></span><br><span class="line">    <span class="attr">roughnessMap</span>: roughnessTexture,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 金属度贴图</span></span><br><span class="line">    <span class="attr">metalnessMap</span>: metalnessTexture</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="高级材质效果"><a href="#高级材质效果" class="headerlink" title="高级材质效果"></a>高级材质效果</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 多重贴图</span></span><br><span class="line"><span class="keyword">const</span> material = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">MeshStandardMaterial</span>(&#123;</span><br><span class="line">    <span class="comment">// 基础颜色贴图</span></span><br><span class="line">    <span class="attr">map</span>: colorTexture,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 法线贴图（模拟表面细节）</span></span><br><span class="line">    <span class="attr">normalMap</span>: normalTexture,</span><br><span class="line">    <span class="attr">normalScale</span>: <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">Vector2</span>(<span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 环境贴图</span></span><br><span class="line">    <span class="attr">envMap</span>: envMap,</span><br><span class="line">    <span class="attr">envMapIntensity</span>: <span class="number">1</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自发光材质</span></span><br><span class="line"><span class="keyword">const</span> emissiveMaterial = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">MeshStandardMaterial</span>(&#123;</span><br><span class="line">    <span class="attr">color</span>: <span class="number">0xffff00</span>,</span><br><span class="line">    <span class="attr">emissive</span>: <span class="number">0xffff00</span>,  <span class="comment">// 自发光颜色</span></span><br><span class="line">    <span class="attr">emissiveIntensity</span>: <span class="number">1</span>  <span class="comment">// 自发光强度</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="高级技巧"><a href="#高级技巧" class="headerlink" title="高级技巧"></a>高级技巧</h3><ol>
+<li>动态改变材质</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实时更新材质属性</span></span><br><span class="line">material.<span class="property">color</span>.<span class="title function_">set</span>(<span class="number">0x00ff00</span>);  <span class="comment">// 改变颜色</span></span><br><span class="line">material.<span class="property">opacity</span> = <span class="number">0.8</span>;  <span class="comment">// 改变透明度</span></span><br><span class="line">material.<span class="property">needsUpdate</span> = <span class="literal">true</span>;  <span class="comment">// 通知渲染器更新</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>复制材质</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> newMaterial = material.<span class="title function_">clone</span>();</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>材质混合</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> material = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">ShaderMaterial</span>(&#123;</span><br><span class="line">    <span class="attr">uniforms</span>: &#123;</span><br><span class="line">        <span class="comment">// 自定义uniform变量</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">vertexShader</span>: <span class="string">`...`</span>,</span><br><span class="line">    <span class="attr">fragmentShader</span>: <span class="string">`...`</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-纹理（Texture）"><a href="#6-纹理（Texture）" class="headerlink" title="6. 纹理（Texture）"></a>6. <strong>纹理（Texture）</strong></h1><p>纹理（Textures）是用于给3D对象添加外观和细节的关键元素。纹理可以模拟各种材料的表面，如木材、金属、水等。以下是一些常用的纹理类型及其属性和方法：</p>
+<h3 id="常用纹理类型及其属性"><a href="#常用纹理类型及其属性" class="headerlink" title="常用纹理类型及其属性"></a>常用纹理类型及其属性</h3><table>
+<thead>
+<tr>
+<th align="left">纹理类型</th>
+<th align="left">描述</th>
+<th align="left">主要属性&#x2F;方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>Texture</code></td>
+<td align="left">基础纹理类型，用于添加颜色、图案等。</td>
+<td align="left"><code>minFilter</code>, <code>magFilter</code>, <code>wrapS</code>, <code>wrapT</code>, <code>offset</code>, <code>repeat</code>, <code>rotation</code></td>
+</tr>
+<tr>
+<td align="left"><code>CanvasTexture</code></td>
+<td align="left">用于从 HTML5 <code>&lt;canvas&gt;</code> 元素创建纹理。</td>
+<td align="left"><code>image</code>, <code>needsUpdate</code>, <code>format</code>, <code>type</code>, <code>anisotropy</code>, <code>colorSpace</code></td>
+</tr>
+<tr>
+<td align="left"><code>DataTexture</code></td>
+<td align="left">用于创建自定义数据纹理，如深度图或法线图。</td>
+<td align="left"><code>image</code>, <code>data</code>, <code>format</code>, <code>type</code>, <code>colorSpace</code></td>
+</tr>
+<tr>
+<td align="left"><code>CubeTexture</code></td>
+<td align="left">立方体贴图，用于环境映射和反射。</td>
+<td align="left"><code>images</code>, <code>format</code>, <code>mapping</code>, <code>minFilter</code>, <code>magFilter</code></td>
+</tr>
+<tr>
+<td align="left"><code>VideoTexture</code></td>
+<td align="left">用于从视频元素创建纹理。</td>
+<td align="left"><code>video</code>, <code>minFilter</code>, <code>magFilter</code>, <code>format</code>, <code>type</code></td>
+</tr>
+<tr>
+<td align="left"><code>CompressedTexture</code></td>
+<td align="left">用于创建压缩纹理，减少内存使用。</td>
+<td align="left"><code>mipmaps</code>, <code>generateMipmaps</code>, <code>premultiplyAlpha</code></td>
+</tr>
+</tbody></table>
+<h3 id="纹理设置属性"><a href="#纹理设置属性" class="headerlink" title="纹理设置属性"></a>纹理设置属性</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>代码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重复</td>
+<td><code>texture.repeat.set(2, 2)</code></td>
+<td>设置纹理重复次数</td>
+</tr>
+<tr>
+<td>偏移</td>
+<td><code>texture.offset.set(0.5, 0.5)</code></td>
+<td>设置纹理偏移量</td>
+</tr>
+<tr>
+<td>旋转</td>
+<td><code>texture.rotation = Math.PI/4</code></td>
+<td>设置纹理旋转角度</td>
+</tr>
+<tr>
+<td>包裹模式</td>
+<td><code>texture.wrapS = THREE.RepeatWrapping</code></td>
+<td>设置水平包裹模式</td>
+</tr>
+<tr>
+<td>过滤方式</td>
+<td><code>texture.minFilter = THREE.LinearFilter</code></td>
+<td>设置纹理缩小过滤</td>
+</tr>
+<tr>
+<td>翻转Y轴</td>
+<td><code>texture.flipY = false</code></td>
+<td>控制纹理是否垂直翻转</td>
+</tr>
+<tr>
+<td>编码</td>
+<td><code>texture.encoding = THREE.sRGBEncoding</code></td>
+<td>设置纹理编码方式</td>
+</tr>
+<tr>
+<td>更新</td>
+<td><code>texture.needsUpdate = true</code></td>
+<td>标记纹理需要更新</td>
+</tr>
+</tbody></table>
+<h3 id="常见贴图类型"><a href="#常见贴图类型" class="headerlink" title="常见贴图类型"></a>常见贴图类型</h3><p>**贴图(Map)**是纹理在材质上的具体应用，定义纹理如何影响物体外观</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> material = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">MeshStandardMaterial</span>(&#123;</span><br><span class="line">    <span class="attr">map</span>: colorTexture,          <span class="comment">// 颜色贴图</span></span><br><span class="line">    <span class="attr">normalMap</span>: normalTexture,   <span class="comment">// 法线贴图</span></span><br><span class="line">    <span class="attr">roughnessMap</span>: roughMap,     <span class="comment">// 粗糙度贴图</span></span><br><span class="line">    <span class="attr">bumpMap</span>: bumpTexture,       <span class="comment">// 凹凸贴图</span></span><br><span class="line">    <span class="attr">aoMap</span>: aoTexture,          <span class="comment">// 环境遮挡贴图</span></span><br><span class="line">    <span class="attr">displacementMap</span>: dispMap    <span class="comment">// 置换贴图</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-其他"><a href="#7-其他" class="headerlink" title="7. 其他"></a>7. 其他</h1><h2 id="相机控制器（OrbitControls）"><a href="#相机控制器（OrbitControls）" class="headerlink" title="相机控制器（OrbitControls）"></a>相机控制器（OrbitControls）</h2><table>
+<thead>
+<tr>
+<th>方法&#x2F;属性</th>
+<th>代码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建控制器</td>
+<td><code>const controls = new OrbitControls(camera, renderer.domElement)</code></td>
+<td>初始化轨道控制器</td>
+</tr>
+<tr>
+<td>启用阻尼</td>
+<td><code>controls.enableDamping = true</code></td>
+<td>添加惯性</td>
+</tr>
+<tr>
+<td>自动旋转</td>
+<td><code>controls.autoRotate = true</code></td>
+<td>相机自动围绕目标旋转</td>
+</tr>
+<tr>
+<td>缩放限制</td>
+<td><code>controls.minDistance = 2; controls.maxDistance = 10</code></td>
+<td>设置缩放范围</td>
+</tr>
+<tr>
+<td>更新控制器</td>
+<td><code>controls.update()</code></td>
+<td>在动画循环中更新控制器状态</td>
+</tr>
+</tbody></table>
+<h2 id="动画循环"><a href="#动画循环" class="headerlink" title="动画循环"></a>动画循环</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">animate</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">requestAnimationFrame</span>(animate);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 更新控制器</span></span><br><span class="line">    controls.<span class="title function_">update</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 更新场景中的对象</span></span><br><span class="line">    mesh.<span class="property">rotation</span>.<span class="property">x</span> += <span class="number">0.01</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 渲染场景</span></span><br><span class="line">    renderer.<span class="title function_">render</span>(scene, camera);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">animate</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="交互"><a href="#交互" class="headerlink" title="交互"></a>交互</h2><table>
+<thead>
+<tr>
+<th>交互类型</th>
+<th>代码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>射线检测</td>
+<td><code>const raycaster = new THREE.Raycaster()</code></td>
+<td>创建射线检测器</td>
+</tr>
+<tr>
+<td>鼠标事件</td>
+<td><code>renderer.domElement.addEventListener(&#39;click&#39;, onClick)</code></td>
+<td>监听鼠标事件</td>
+</tr>
+<tr>
+<td>物体选择</td>
+<td><code>raycaster.intersectObjects(objects)</code></td>
+<td>检测射线与物体的交叉</td>
+</tr>
+<tr>
+<td>拖拽控制</td>
+<td><code>const dragControls = new DragControls(objects, camera, renderer.domElement)</code></td>
+<td>实现物体拖拽</td>
+</tr>
+<tr>
+<td>变换控制</td>
+<td><code>const transformControls = new TransformControls(camera, renderer.domElement)</code></td>
+<td>实现物体的变换控制</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://blog.beson.top">Beson</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://blog.beson.top/2024/11/26/Front-end/ThreeJs/three.js_2/">https://blog.beson.top/2024/11/26/Front-end/ThreeJs/three.js_2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/image/cover/ThreeJs.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Beson</div><div class="author-info-description">Hello World</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/songguo1"><i class="fab fa-github"></i><span>🛴前往小家...</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://blog.beson.top/image/weixin.png" target="_blank" title="微信"><i class="iconfont icon-weixin"></i></a><a class="social-icon" href="https://github.com/songguo1" target="_blank" title="GitHub"><i class="iconfont icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/2301_78796401" target="_blank" title="CSDN"><i class="iconfont icon-csdn"></i></a><a class="social-icon" href="https://www.zhihu.com/people/m8bxac" target="_blank" title="知乎"><i class="iconfont icon-zhihu-circle-fill"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">公告内容</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%9C%BA%E6%99%AF%EF%BC%88Scene%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">1. 场景（Scene）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%87%A0%E4%BD%95%E4%BD%93%EF%BC%88Geometry%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">2. 几何体（Geometry）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%91%84%E5%83%8F%E6%9C%BA%EF%BC%88Camera%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">3. 摄像机（Camera）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%8F%E8%A7%86%E6%91%84%E5%83%8F%E6%9C%BA%EF%BC%88PerspectiveCamera%EF%BC%89"><span class="toc-number">3.0.1.</span> <span class="toc-text">透视摄像机（PerspectiveCamera）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E4%BA%A4%E6%91%84%E5%83%8F%E6%9C%BA%EF%BC%88OrthographicCamera%EF%BC%89"><span class="toc-number">3.0.2.</span> <span class="toc-text">正交摄像机（OrthographicCamera）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E6%9C%BA%E7%9A%84%E5%85%B1%E5%90%8C%E6%96%B9%E6%B3%95"><span class="toc-number">3.0.3.</span> <span class="toc-text">摄像机的共同方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E6%9C%BA"><span class="toc-number">3.0.4.</span> <span class="toc-text">使用摄像机</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%85%89%E6%BA%90%EF%BC%88Light%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">4. 光源（Light）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E6%BA%90%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.0.1.</span> <span class="toc-text">光源类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-number">4.0.2.</span> <span class="toc-text">常用属性和方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">4.0.3.</span> <span class="toc-text">示例代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E6%9D%90%E8%B4%A8%EF%BC%88Material%EF%BC%89%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">5. 材质（Material）：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%9D%90%E8%B4%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.0.1.</span> <span class="toc-text">基本材质类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%90%E8%B4%A8%E5%B8%B8%E7%94%A8%E5%B1%9E%E6%80%A7"><span class="toc-number">5.0.2.</span> <span class="toc-text">材质常用属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%B9%E7%90%86%E8%B4%B4%E5%9B%BE%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.0.3.</span> <span class="toc-text">纹理贴图示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E6%9D%90%E8%B4%A8%E6%95%88%E6%9E%9C"><span class="toc-number">5.0.4.</span> <span class="toc-text">高级材质效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7"><span class="toc-number">5.0.5.</span> <span class="toc-text">高级技巧</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E7%BA%B9%E7%90%86%EF%BC%88Texture%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">6. 纹理（Texture）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%BA%B9%E7%90%86%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E5%B1%9E%E6%80%A7"><span class="toc-number">6.0.1.</span> <span class="toc-text">常用纹理类型及其属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%B9%E7%90%86%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7"><span class="toc-number">6.0.2.</span> <span class="toc-text">纹理设置属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E8%B4%B4%E5%9B%BE%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.0.3.</span> <span class="toc-text">常见贴图类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E5%85%B6%E4%BB%96"><span class="toc-number">7.</span> <span class="toc-text">7. 其他</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%99%A8%EF%BC%88OrbitControls%EF%BC%89"><span class="toc-number">7.1.</span> <span class="toc-text">相机控制器（OrbitControls）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB%E5%BE%AA%E7%8E%AF"><span class="toc-number">7.2.</span> <span class="toc-text">动画循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E4%BA%92"><span class="toc-number">7.3.</span> <span class="toc-text">交互</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By Beson</div><div class="footer_custom_text">I wish you to become your own sun, no need to rely on who's light.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p># 是一个给你用来在页脚自定义文本的选项。通常你可以在这里写声明文本等,支持 HTML。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
