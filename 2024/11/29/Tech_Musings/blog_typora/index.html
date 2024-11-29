@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>本人撰写博客文章的经验技巧和所踩的坑 | 松果猿的博客</title><meta name="author" content="Beson"><meta name="copyright" content="Beson"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="文章同步更新于我的个人博客：松果猿的博客，欢迎访问获取更多技术分享。 同时，您也可以关注我的微信公众号：松果猿的代码工坊，获取最新文章推送和编程技巧。  这是一篇经验贴，主要是分享我撰写博客所使用的工具以及一些技巧，主要为大家写笔记少走一点弯路。 Markdown 写知识笔记最推荐的就是Markdown，因为快、准、狠。记笔记最重要的快、准、狠，我不需要纠结于排版，语法特别简单，容易上手，我有一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本人撰写博客文章的经验技巧和所踩的坑">
+<meta property="og:url" content="https://blog.beson.top/2024/11/29/Tech_Musings/blog_typora/index.html">
+<meta property="og:site_name" content="松果猿的博客">
+<meta property="og:description" content="文章同步更新于我的个人博客：松果猿的博客，欢迎访问获取更多技术分享。 同时，您也可以关注我的微信公众号：松果猿的代码工坊，获取最新文章推送和编程技巧。  这是一篇经验贴，主要是分享我撰写博客所使用的工具以及一些技巧，主要为大家写笔记少走一点弯路。 Markdown 写知识笔记最推荐的就是Markdown，因为快、准、狠。记笔记最重要的快、准、狠，我不需要纠结于排版，语法特别简单，容易上手，我有一">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.beson.top/image/avatar.png">
+<meta property="article:published_time" content="2024-11-29T06:30:59.222Z">
+<meta property="article:modified_time" content="2024-11-29T12:48:35.843Z">
+<meta property="article:author" content="Beson">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.beson.top/image/avatar.png"><link rel="shortcut icon" href="/image/favicon/medium_favicon.svg"><link rel="canonical" href="https://blog.beson.top/2024/11/29/Tech_Musings/blog_typora/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: Beson","link":"Link: ","source":"Source: 松果猿的博客","info":"Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source."}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '本人撰写博客文章的经验技巧和所踩的坑',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-11-29 20:48:35'
+}</script><link rel="stylesheet" href="/css/font.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(url(https://source.fomal.cc/img/dm1.webp));"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/image/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(image/top_img/);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">松果猿的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">本人撰写博客文章的经验技巧和所踩的坑</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">本人撰写博客文章的经验技巧和所踩的坑</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-11-29T06:30:59.222Z" title="Created 2024-11-29 14:30:59">2024-11-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-11-29T12:48:35.843Z" title="Updated 2024-11-29 20:48:35">2024-11-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>文章同步更新于我的个人博客：<a href="https://blog.beson.top/">松果猿的博客</a>，欢迎访问获取更多技术分享。</p>
+<p>同时，您也可以关注我的微信公众号：<strong>松果猿的代码工坊</strong>，获取最新文章推送和编程技巧。</p>
+</blockquote>
+<p>这是一篇经验贴，主要是分享我撰写博客所使用的工具以及一些技巧，主要为大家写笔记少走一点弯路。</p>
+<p><strong>Markdown</strong></p>
+<p>写知识笔记最推荐的就是Markdown，因为快、准、狠。记笔记最重要的快、准、狠，我不需要纠结于排版，语法特别简单，容易上手，我有一篇文章记录了一些Markdown的常用语法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/2301_78796401/article/details/142372097%EF%BC%8C%E5%8F%AA%E8%A6%81%E6%8E%8C%E6%8F%A1%E5%9F%BA%E6%9C%AC%E7%9A%84%E8%AF%AD%E6%B3%95%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%86%99%E4%BA%86%E3%80%82">https://blog.csdn.net/2301_78796401/article/details/142372097，只要掌握基本的语法就可以写了。</a></p>
+<p><strong>Typaro</strong></p>
+<p>写markdown怎么能不提到这个高效软件呢，当初我在<strong>SublimeText</strong>、<strong>Typaro</strong>、<strong>Notepad++<strong>这几个文本编辑器中纠结用哪一个比较好，看了一下我被另外两个软件一种十年前的配色设计风格劝退了，选择了</strong>Typaro</strong>，不得不说这真是个正确的选择，Typaro不像其他编辑器两个窗口，一个编辑窗口一个预览窗口，取而代之的是实时预览，快、准、狠。</p>
+<p>复制粘贴图片也非常方便，在<em>文件&gt;偏好设置&gt;图像</em> 设置好路径，比如在某个网页看到一个好看的图片，或者使用截图，复制图像后就可以在typora文档内粘贴的同时保存在本地。</p>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129110820408.png" alt="image-20241129110820408"></p>
+<p>一般到这里大家日常记记笔记写写文章也够用了，如果你想让文章上传到例如掘金、CSDN这类平台，就需要注意看下面的内容。</p>
+<p><strong>Picgo</strong></p>
+<p>由于Typora内插入的图片都是保存在本地的，当你想把md文档发送分享给别人看时，或者上传到自己的博客网站和其他博客平台（许多博客平台都是支持Md格式的）图片就不能正确显示，这时候就需要用到图床。</p>
+<p>picgo就是用来上传图片到图床的工具，而且Typora内置支持Picgo的，在<em>文件&gt;偏好设置&gt;图像</em> 中进行如下设置：</p>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129112907852.png" alt="image-20241129112907852"></p>
+<p>这样在Typora 中直接粘贴图片后自动上传到图床。关于图床的创建以及配置就不过多赘述，网上都有许多教程。</p>
+<p>下面来说如何选择图床，这里就遇到比较多的坑：</p>
+<ol>
+<li><p><strong>gitee</strong>：</p>
+<p>Picgo默认不支持gitee，需要下载插件。毕竟是免费的，但免费的同时也是最贵的，gitee有存储限制，一旦达到上限就需要迁移，除此之外还有诸多掣肘，这都无所谓，主要我一个穷学生能用免费的就满足了。</p>
+<p>不过当我写好后将md文档上传到平台后（这里以CSDN举例）：</p>
+</li>
+</ol>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129115312537.png" alt="image-20241129115312537"></p>
+<p>？？？为什么不行，然后查了一下，原来gitee在2022年就开启防盗链。</p>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129115643801.png" alt="image-20241129115643801"></p>
+<p>许多推荐使用gitee搭建图床的文章都是21年和20年的（泪目，害我搞半天）</p>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129120239990.png" alt="image-20241129120239990"></p>
+<ol start="2">
+<li><p><strong>github+CDN</strong></p>
+<p>gitee不行了，那就用github吧，大部分人推荐使用GitHub + jsdelivr ，又花了半天配置好后测试一下，图片上传访问总是失败，甚至挂梯子都不行，遂作罢。</p>
+</li>
+<li><p><strong>阿里云OSS</strong></p>
+<p>没办法只能花钱了，用阿里云的存储吧，毕竟大平台口碑好…</p>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129121230302.png" alt="image-20241129121230302"></p>
+</li>
+</ol>
+<p>？？？怎么这么贵，这让我一个穷学生这么负担得起，算了算了，看看其他的。</p>
+<ol start="4">
+<li><p><strong>七牛云</strong></p>
+<p>七牛云好像是有免费额度的，相对来说更经济实惠一点，不过这个需要我们自己配置域名？？？域名我倒是有，不过是个没备案的（哭）。</p>
+<p>好吧又去阿里云租了一个域名，七七八八的一通流程，各种认证，结果现在还需要等工信部审核，也不知道什么时候会审核好。所以有经济水平的还是用OSS吧</p>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129122646526.png" alt="image-20241129122646526"></p>
+<p>不过我好像有一个OSS存储好像还没过期，在等待的时间正好可以用这个…</p>
+</li>
+</ol>
+<p>其实我的建议是写博客文章应该写两份，一个图片存储在图床，另一个图片存储在本地的备份，就拿我来说，我的个人博客网站的文章的图片路径都是相对路径，图片存储在网站的资源文件夹里，这样假如图床需要迁移或者其他意外也不会波及到我的博客网站。另一个备份用图床的文章则是我用来上传到各大博客平台的。如果你问写两份是不是有点麻烦，还要一张张图片上传，不不不，你只需要先写一份本地图片存储的文章，然后复制该文章文件粘贴一模一样的文章，这个文章在 <em>格式&gt;图像&gt;上传所有本地图片</em> 就可以将这个文章的本地图片存储在图床了。</p>
+<p><img src="/2024/11/29/Tech_Musings/blog_typora/image-20241129124731567.png" alt="image-20241129124731567"></p>
+<p>再推荐写博客会用到的几个工具：</p>
+<p><strong>Snipaste</strong></p>
+<p>非常好用的截图工具，不过多说明。</p>
+<p><strong>Xmind、draw.io</strong></p>
+<p>绘一些简易图以及弄思维导图非常好用，也不过多说明。</p>
+<p><strong>cloudconvert</strong></p>
+<p>视频转gif的网站：<a target="_blank" rel="noopener" href="https://cloudconvert.com/mp4-to-gif">MP4 to GIF | CloudConvert</a></p>
+<blockquote>
+<p> 以上就是本人的一些撰写博客的经验，希望对大家有帮助。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://blog.beson.top">Beson</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://blog.beson.top/2024/11/29/Tech_Musings/blog_typora/">https://blog.beson.top/2024/11/29/Tech_Musings/blog_typora/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/image/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Beson</div><div class="author-info-description">Hello World</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/songguo1"><i class="fab fa-github"></i><span>🛴前往小家...</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://blog.beson.top/image/weixin.png" target="_blank" title="微信"><i class="iconfont icon-weixin"></i></a><a class="social-icon" href="https://github.com/songguo1" target="_blank" title="GitHub"><i class="iconfont icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/2301_78796401" target="_blank" title="CSDN"><i class="iconfont icon-csdn"></i></a><a class="social-icon" href="https://www.zhihu.com/people/m8bxac" target="_blank" title="知乎"><i class="iconfont icon-zhihu-circle-fill"></i></a><a class="social-icon" href="https://juejin.cn/user/4202763137319632" target="_blank" title="掘金"><i class="iconfont icon-juejin"></i></a><a class="social-icon" href="https://blog.beson.top/image/gongzhonghao.png" target="_blank" title="公众号"><i class="iconfont icon-gongzhonghao"></i></a><a class="social-icon" href="https://space.bilibili.com/1188124724" target="_blank" title="Bilibili"><i class="iconfont icon-Bzhan"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">公告内容</div></div><div class="sticky_layout"></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By Beson</div><div class="footer_custom_text">I wish you to become your own sun, no need to rely on who's light.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p># 是一个给你用来在页脚自定义文本的选项。通常你可以在这里写声明文本等,支持 HTML。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
