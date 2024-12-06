@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Blender中使用BlenderGIS插件快速生成城市建筑模型 | 松果猿的博客</title><meta name="author" content="Beson"><meta name="copyright" content="Beson"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="导入下载 BlenderGIS 插件去github上下载其压缩包，地址如下： https:&#x2F;&#x2F;github.com&#x2F;domlysz&#x2F;BlenderGIS 在BlenderGIS中导入这个插件压缩包： 点击上方菜单栏的编辑，点击偏好设置   在插件&gt;从磁盘安装中导入刚刚下载的压缩包   可以看到上方的菜单栏出现了GIS选项，这就说明插件导入成功了   但是若你想使用，会发现弹出一个报错：No">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blender中使用BlenderGIS插件快速生成城市建筑模型">
+<meta property="og:url" content="https://blog.beson.top/2024/12/06/gis/blenderGIS/index.html">
+<meta property="og:site_name" content="松果猿的博客">
+<meta property="og:description" content="导入下载 BlenderGIS 插件去github上下载其压缩包，地址如下： https:&#x2F;&#x2F;github.com&#x2F;domlysz&#x2F;BlenderGIS 在BlenderGIS中导入这个插件压缩包： 点击上方菜单栏的编辑，点击偏好设置   在插件&gt;从磁盘安装中导入刚刚下载的压缩包   可以看到上方的菜单栏出现了GIS选项，这就说明插件导入成功了   但是若你想使用，会发现弹出一个报错：No">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.beson.top/image/cover/GIS.png">
+<meta property="article:published_time" content="2024-12-06T14:36:24.229Z">
+<meta property="article:modified_time" content="2024-12-06T14:36:36.080Z">
+<meta property="article:author" content="Beson">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.beson.top/image/cover/GIS.png"><link rel="shortcut icon" href="/image/favicon/medium_favicon.svg"><link rel="canonical" href="https://blog.beson.top/2024/12/06/gis/blenderGIS/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: Beson","link":"Link: ","source":"Source: 松果猿的博客","info":"Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source."}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Blender中使用BlenderGIS插件快速生成城市建筑模型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-12-06 22:36:36'
+}</script><link rel="stylesheet" href="/css/font.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(url(https://source.fomal.cc/img/dm1.webp));"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/image/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(image/top_img/GIS.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">松果猿的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">Blender中使用BlenderGIS插件快速生成城市建筑模型</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Blender中使用BlenderGIS插件快速生成城市建筑模型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-12-06T14:36:24.229Z" title="Created 2024-12-06 22:36:24">2024-12-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-12-06T14:36:36.080Z" title="Updated 2024-12-06 22:36:36">2024-12-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="导入下载-BlenderGIS-插件"><a href="#导入下载-BlenderGIS-插件" class="headerlink" title="导入下载 BlenderGIS 插件"></a>导入下载 BlenderGIS 插件</h1><p>去github上下载其压缩包，地址如下：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/domlysz/BlenderGIS">https://github.com/domlysz/BlenderGIS</a></p>
+<p>在BlenderGIS中导入这个插件压缩包：</p>
+<p>点击上方菜单栏的<code>编辑</code>，点击<code>偏好设置</code></p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205000954578.png" class="" title="&#96;">
+
+<p>在<code>插件</code>&gt;<code>从磁盘安装</code>中导入刚刚下载的压缩包</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205103646727.png" class="" title="image-20241205103646727">
+
+<p>可以看到上方的菜单栏出现了<code>GIS</code>选项，这就说明插件导入成功了</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205104703954.png" class="" title="image-20241205104703954">
+
+<p>但是若你想使用，会发现弹出一个报错：<code>No imaging library available. ImagelO module was not correctly installed.</code></p>
+<p><strong><img src="/2024/12/06/gis/blenderGIS/202411281143633.png" class="" title="image-20241127214132271"></strong></p>
+<p>网上给出的一个比较可行的方法是：进入blender的文件夹，在python&#x2F;bin&#x2F;的文件目录下cmd，输入命令安装imageio：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python.exe -m pip install imageio</span><br></pre></td></tr></table></figure>
+
+<h1 id="影像数据"><a href="#影像数据" class="headerlink" title="影像数据"></a>影像数据</h1><p>点击GIS插件，选中<code>Web geodata</code>&gt;<code>Basemap</code>，</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205111145097.png" class="" title="image-20241205111145097">
+
+<p>我这里使用的是国产的天地图，不过这需要额外配置，具体操作可以看这篇文章：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/488f9ba27831">Blender关于GIS插件的安装及使用和天地图的配置 - 简书</a></p>
+<p>可以看到影像地图已经显示在界面上了：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205114023242.png" class="" title="image-20241205114023242">
+
+<p><code>Ctrl</code>+<code>G</code>进行定位，输入位置和缩放级别（不过对于我额外配置的天地图好像不适用）</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205114526331.png" class="" title="image-20241205114526331">
+
+<p>定位到你所感兴趣的位置：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205115555086.png" class="" title="image-20241205115555086">
+
+<p>按<code>E</code>键可以将视口中的瓦片截取下来：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205115735076.png" class="" title="image-20241205115735076">
+
+<h1 id="载入地形起伏"><a href="#载入地形起伏" class="headerlink" title="载入地形起伏"></a>载入地形起伏</h1><p>blenderGIS可以从NASA SRTM获取获取海拔数据以生成地形起伏</p>
+<p>不过：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205120132924.png" class="" title="image-20241205120132924">
+
+<p>去官网获取API，注册然后申请就可以了：</p>
+<p><a target="_blank" rel="noopener" href="https://opentopography.org/">Home | OpenTopography</a></p>
+<p>在<code>偏好设置</code>&gt;<code>插件</code>中输入你刚刚申请的API：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205120836773.png" class="" title="image-20241205120836773">
+
+<p>选中GIS插件<code>Web geodata</code>&gt;<code>Get elevation</code>，</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205120933803.png" class="" title="image-20241205120933803">
+
+<p>在弹出的弹窗中点击确定：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205121235190.png" class="" title="image-20241205121235190">
+
+<p>可以看到地图上已经有地形起伏了，可是不太显眼：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205121421289.png" class="" title="image-20241205121421289">
+
+<p>我们直接在右侧的编辑器中控制其Z轴上缩放等级，调整达到一个你认为合适的数值即可：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205121838686.png" class="" title="image-20241205121838686">
+
+<h1 id="生成建筑模型"><a href="#生成建筑模型" class="headerlink" title="生成建筑模型"></a>生成建筑模型</h1><p>选择<code>Web geodata</code>&gt;<code>Get OSM</code>，获取OSM的建筑路网等信息：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205122501753.png" class="" title="image-20241205122501753">
+
+<p>选择你想要生成的模型类型，我这里选择的是建筑(building)、路网(highway)、土地(landuse)、自然(natural)和水路(waterway)，记得勾选<code>Elevation from object</code> 这样可以让模型紧贴地形</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205140837254.png" class="" title="image-20241205140837254">
+
+<p>模型已经生成了：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205141020176.png" class="" title="image-20241205141020176">
+
+<p>如果需要的话还可以设置一下道路宽度，这样更加美观，可以看这篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39934403/article/details/115301966">blender设置highway道路宽度_blender画路面-CSDN博客</a></p>
+<p>我们也可以到<a target="_blank" rel="noopener" href="https://www.openstreetmap.org/">OpenStreetMap官网</a>获取数据</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205132530935.png" class="" title="image-20241205132530935">
+
+<p>定位框选你所想要的区域，再导出后缀为.osm的数据：</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205133152355.png" class="" title="image-20241205133152355">
+
+<p>在GIS插件中选择<code>导入</code>&gt;<code>Open Street Map xml</code>导入下载的osm数据</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205141301202.png" class="" title="image-20241205141301202">
+
+
+
+<h1 id="导出数据"><a href="#导出数据" class="headerlink" title="导出数据"></a>导出数据</h1><p>点击<code>文件</code>&gt;<code>导出</code> 导出模型数据，我这里选择导出glb格式</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205143759047.png" class="" title="image-20241205143759047">
+
+<p>在线模型网站中预览模型</p>
+<img src="/2024/12/06/gis/blenderGIS/image-20241205143956321.png" class="" title="image-20241205143956321">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://blog.beson.top">Beson</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://blog.beson.top/2024/12/06/gis/blenderGIS/">https://blog.beson.top/2024/12/06/gis/blenderGIS/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/image/cover/GIS.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Beson</div><div class="author-info-description">Hello World</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/songguo1"><i class="fab fa-github"></i><span>🛴前往小家...</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://blog.beson.top/image/weixin.png" target="_blank" title="微信"><i class="iconfont icon-weixin"></i></a><a class="social-icon" href="https://github.com/songguo1" target="_blank" title="GitHub"><i class="iconfont icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/2301_78796401" target="_blank" title="CSDN"><i class="iconfont icon-csdn"></i></a><a class="social-icon" href="https://www.zhihu.com/people/m8bxac" target="_blank" title="知乎"><i class="iconfont icon-zhihu-circle-fill"></i></a><a class="social-icon" href="https://juejin.cn/user/4202763137319632" target="_blank" title="掘金"><i class="iconfont icon-juejin"></i></a><a class="social-icon" href="https://blog.beson.top/image/gongzhonghao.png" target="_blank" title="公众号"><i class="iconfont icon-gongzhonghao"></i></a><a class="social-icon" href="https://space.bilibili.com/1188124724" target="_blank" title="Bilibili"><i class="iconfont icon-Bzhan"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">公告内容</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E4%B8%8B%E8%BD%BD-BlenderGIS-%E6%8F%92%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">导入下载 BlenderGIS 插件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%B1%E5%83%8F%E6%95%B0%E6%8D%AE"><span class="toc-number">2.</span> <span class="toc-text">影像数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%BD%E5%85%A5%E5%9C%B0%E5%BD%A2%E8%B5%B7%E4%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">载入地形起伏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%BB%BA%E7%AD%91%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">生成建筑模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="toc-number">5.</span> <span class="toc-text">导出数据</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By Beson</div><div class="footer_custom_text">I wish you to become your own sun, no need to rely on who's light.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p># 是一个给你用来在页脚自定义文本的选项。通常你可以在这里写声明文本等,支持 HTML。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
