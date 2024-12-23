@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>独家攻略！GISer必备：轻松获取GIS数据的实用技巧，赶紧收藏！（二） | 松果猿的博客</title><meta name="author" content="Beson"><meta name="copyright" content="Beson"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="文章同步更新于我的个人博客：松果猿的博客，欢迎访问获取更多技术分享。 同时，您也可以关注我的微信公众号：松果猿的代码工坊，获取最新文章推送和编程技巧。   本人是一个GIS专业学生，平时学习过程中常常为搜寻合适的数据而苦恼，往往遇到的情况是，要么数据需要付费，要么是诱导性的链接，下面就分享本人记录收藏的网站以及工具，让大家不再吃亏。   上一期我撰写了POI数据、行政区划和DEM高程数据的获取方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="独家攻略！GISer必备：轻松获取GIS数据的实用技巧，赶紧收藏！（二）">
+<meta property="og:url" content="https://blog.beson.top/2024/12/10/gis/gis_2/index.html">
+<meta property="og:site_name" content="松果猿的博客">
+<meta property="og:description" content="文章同步更新于我的个人博客：松果猿的博客，欢迎访问获取更多技术分享。 同时，您也可以关注我的微信公众号：松果猿的代码工坊，获取最新文章推送和编程技巧。   本人是一个GIS专业学生，平时学习过程中常常为搜寻合适的数据而苦恼，往往遇到的情况是，要么数据需要付费，要么是诱导性的链接，下面就分享本人记录收藏的网站以及工具，让大家不再吃亏。   上一期我撰写了POI数据、行政区划和DEM高程数据的获取方">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.beson.top/image/avatar.png">
+<meta property="article:published_time" content="2024-12-10T15:12:37.607Z">
+<meta property="article:modified_time" content="2024-12-10T15:12:08.820Z">
+<meta property="article:author" content="Beson">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.beson.top/image/avatar.png"><link rel="shortcut icon" href="/image/favicon/medium_favicon.svg"><link rel="canonical" href="https://blog.beson.top/2024/12/10/gis/gis_2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: Beson","link":"Link: ","source":"Source: 松果猿的博客","info":"Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source."}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '独家攻略！GISer必备：轻松获取GIS数据的实用技巧，赶紧收藏！（二）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-12-10 23:12:08'
+}</script><link rel="stylesheet" href="/css/font.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(url(https://source.fomal.cc/img/dm1.webp));"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/image/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(image/top_img/);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">松果猿的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">独家攻略！GISer必备：轻松获取GIS数据的实用技巧，赶紧收藏！（二）</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user"></i><span> 与我</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">独家攻略！GISer必备：轻松获取GIS数据的实用技巧，赶紧收藏！（二）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-12-10T15:12:37.607Z" title="Created 2024-12-10 23:12:37">2024-12-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-12-10T15:12:08.820Z" title="Updated 2024-12-10 23:12:08">2024-12-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>文章同步更新于我的个人博客：<a href="https://blog.beson.top/">松果猿的博客</a>，欢迎访问获取更多技术分享。</p>
+<p>同时，您也可以关注我的微信公众号：<strong>松果猿的代码工坊</strong>，获取最新文章推送和编程技巧。</p>
+</blockquote>
+<blockquote>
+<p>本人是一个GIS专业学生，平时学习过程中常常为搜寻合适的数据而苦恼，往往遇到的情况是，要么数据需要付费，要么是诱导性的链接，下面就分享本人记录收藏的网站以及工具，让大家不再吃亏。</p>
+</blockquote>
+<blockquote>
+<p>上一期我撰写了<strong>POI数据、行政区划和DEM高程数据</strong>的获取方法，这一期带来<strong>卫星影像、建筑shp数据</strong>的获取方式</p>
+</blockquote>
+<h1 id="卫星影像数据获取："><a href="#卫星影像数据获取：" class="headerlink" title="卫星影像数据获取："></a>卫星影像数据获取：</h1><h2 id="QGIS插件-QuickMapServices"><a href="#QGIS插件-QuickMapServices" class="headerlink" title="QGIS插件(QuickMapServices)"></a>QGIS插件(QuickMapServices)</h2><p>打开QGIS，安装<code>QuickMapServices</code>插件。点击<code>插件</code>&gt;<code>管理并安装插件</code>：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210213600328.png" class="" title="image-20241210213600328">
+
+<p>搜索<code>QuickMapServices</code>并安装：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210213520763.png" class="" title="image-20241210213520763">
+
+<p><code>QuickMapServices</code>提供了许多地图服务，不过我们首先要进行相关设置，点击<code>Settings</code>：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210213730377.png" class="" title="image-20241210213730377">
+
+<p>点击<code>Get contributed pack</code>：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210213749073.png" class="" title="image-20241210213749073">
+
+<p>这样许多地图资源就可以使用了：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210213846077.png" class="" title="image-20241210213846077">
+
+<p>随便选一个影像图</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210214239843.png" class="" title="image-20241210214239843">
+
+<p>点击<code>工程</code>&gt;<code>导入/导出</code>&gt;<code>导出地图为图像</code>：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210214402460.png" class="" title="image-20241210214402460">
+
+<p>在弹窗中<code>图层</code>选择影像图图层：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210214457021.png" class="" title="image-20241210214457021">
+
+<p>范围可以选择<code>地图画布范围</code>和<code>在画布中绘制</code>，我这里就自己绘制选择范围：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210214519374.png" class="" title="image-20241210214519374">
+
+<p>绘制范围：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210214538973.png" class="" title="image-20241210214538973">
+
+<p>分辨率根据自己的需求来填：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210214701033.png" class="" title="image-20241210214701033">
+
+<p>格式选择tif进行导出：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210214843511.png" class="" title="image-20241210214843511">
+
+<h1 id="建筑shp数据"><a href="#建筑shp数据" class="headerlink" title="建筑shp数据"></a>建筑shp数据</h1><h2 id="1-水经注地图下载器："><a href="#1-水经注地图下载器：" class="headerlink" title="1. 水经注地图下载器："></a>1. 水经注地图下载器：</h2><p><a target="_blank" rel="noopener" href="https://www.rivermap.cn/download.html">点击前往</a></p>
+<p>这是成都水经软件有限公司的一款软件，前往下载链接点击<code>立即下载</code>：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210150902294.png" class="" title="image-20241210150902294">
+
+<p>按照步骤下载好后，不过好像要收费……好吧，能力有限，这里就不演示了。</p>
+<h2 id="2-栅格矢量化处理"><a href="#2-栅格矢量化处理" class="headerlink" title="2. 栅格矢量化处理"></a>2. 栅格矢量化处理</h2><p>这个方法就是将建筑矢量图转为shp格式，我们选择用天地图的矢量底图，因为这个底图的建筑信息更详细，右键点击左侧显示栏的<code>XYZ Tiles</code>，点击新建连接：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210161049454.png" class="" title="image-20241210161049454">
+
+<p>在弹窗中输入如下URL，这里的tk需要自己申请：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&amp;REQUEST=GetTile&amp;VERSION=1.0.0&amp;LAYER=vec&amp;STYLE=default&amp;TILEMATRIXSET=w&amp;FORMAT=tiles&amp;TILECOL=&#123;x&#125;&amp;TILEROW=&#123;y&#125;&amp;TILEMATRIX=&#123;z&#125;&amp;tk=申请的tk</span><br></pre></td></tr></table></figure>
+
+<img src="/2024/12/10/gis/gis_2/image-20241210170222442.png" class="" title="image-20241210170222442">
+
+<p>这样就显示出天地图的矢量图层了：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210170245737.png" class="" title="image-20241210170245737">
+
+<p>剩下的步骤和上面的提取影像地图的步骤一样了：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210170814390.png" class="" title="image-20241210170814390">
+
+<img src="/2024/12/10/gis/gis_2/image-20241210170936048.png" class="" title="image-20241210170936048">
+
+<img src="/2024/12/10/gis/gis_2/image-20241210171012199.png" class="" title="image-20241210171012199">
+
+<img src="/2024/12/10/gis/gis_2/image-20241210171049157.png" class="" title="image-20241210171049157">
+
+<img src="/2024/12/10/gis/gis_2/image-20241210174454107.png" class="" title="image-20241210174454107">
+
+<p>下面来将栅格图转为矢量图，这里我们需要用一个R2V工具（可以将图片转换为CAD矢量图的软件）：</p>
+<p><a target="_blank" rel="noopener" href="https://soft.3dmgame.com/down/168403.html">R2V下载地址</a></p>
+<p>来到R2V，将刚刚下载的图像导入：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210174546622.png" class="" title="image-20241210174546622">
+
+<p>点击 <code>图像</code>&gt;<code>转换</code>&gt;<code>24位RGB--&gt;灰度</code> 将其转为灰度图：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210174956480.png" class="" title="image-20241210174956480">
+
+<p>再点击 <code>图像</code>&gt;<code>设置图像阈值</code> ：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210175039043.png" class="" title="image-20241210175039043">
+
+<p>在弹窗中进行调整，设置其阈值，点击 <code>确定</code>：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210175218499.png" class="" title="image-20241210175218499">
+
+<p>点击 <code>矢量</code>&gt;<code>自动矢量化</code>：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210223815831.png" class="" title="image-20241210223815831">
+
+<p>按如下进行配置：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210175614013.png" class="" title="image-20241210175614013">
+
+<p>ok，现在可以导出了，点击 <code>文件</code>&gt;<code>输出矢量</code></p>
+<img src="/2024/12/10/gis/gis_2/image-20241210175748823.png" class="" title="image-20241210175748823">
+
+<p>格式选择shp文件：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210175930272.png" class="" title="image-20241210175930272">
+
+<p>导入到QGIS检查一下：</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210180102757.png" class="" title="image-20241210180102757">
+
+<p>emmm…好像感觉不咋样</p>
+<blockquote>
+<p>本来我准备用ArcGIS工具箱里的栅格转面工具的，但是出来个这玩意…….</p>
+<img src="/2024/12/10/gis/gis_2/image-20241210181350914.png" class="" title="image-20241210181350914">
+
+<p>本人也是一个小白，如果有更好的栅格转矢量办法可以在评论区说出来（<strong>其实可以用一些遥感影像AI工具识别建筑轮廓，比如说阿里达摩院的 AI Earth</strong>，这个以后应该再研究）</p>
+</blockquote>
+<blockquote>
+<p>下一期接着带来OSM以及天地图数据的获取方法</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://blog.beson.top">Beson</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://blog.beson.top/2024/12/10/gis/gis_2/">https://blog.beson.top/2024/12/10/gis/gis_2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/image/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Beson</div><div class="author-info-description">Hello World</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/songguo1"><i class="fab fa-github"></i><span>🛴前往小家...</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://blog.beson.top/image/weixin.png" target="_blank" title="微信"><i class="iconfont icon-weixin"></i></a><a class="social-icon" href="https://github.com/songguo1" target="_blank" title="GitHub"><i class="iconfont icon-github"></i></a><a class="social-icon" href="https://blog.csdn.net/2301_78796401" target="_blank" title="CSDN"><i class="iconfont icon-csdn"></i></a><a class="social-icon" href="https://www.zhihu.com/people/m8bxac" target="_blank" title="知乎"><i class="iconfont icon-zhihu-circle-fill"></i></a><a class="social-icon" href="https://juejin.cn/user/4202763137319632" target="_blank" title="掘金"><i class="iconfont icon-juejin"></i></a><a class="social-icon" href="https://blog.beson.top/image/gongzhonghao.png" target="_blank" title="公众号"><i class="iconfont icon-gongzhonghao"></i></a><a class="social-icon" href="https://space.bilibili.com/1188124724" target="_blank" title="Bilibili"><i class="iconfont icon-Bzhan"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">公告内容</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">卫星影像数据获取：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#QGIS%E6%8F%92%E4%BB%B6-QuickMapServices"><span class="toc-number">1.1.</span> <span class="toc-text">QGIS插件(QuickMapServices)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%BA%E7%AD%91shp%E6%95%B0%E6%8D%AE"><span class="toc-number">2.</span> <span class="toc-text">建筑shp数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B0%B4%E7%BB%8F%E6%B3%A8%E5%9C%B0%E5%9B%BE%E4%B8%8B%E8%BD%BD%E5%99%A8%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">1. 水经注地图下载器：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%85%E6%A0%BC%E7%9F%A2%E9%87%8F%E5%8C%96%E5%A4%84%E7%90%86"><span class="toc-number">2.2.</span> <span class="toc-text">2. 栅格矢量化处理</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By Beson</div><div class="footer_custom_text">I wish you to become your own sun, no need to rely on who's light.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p># 是一个给你用来在页脚自定义文本的选项。通常你可以在这里写声明文本等,支持 HTML。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
